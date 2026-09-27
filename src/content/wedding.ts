@@ -29,13 +29,13 @@ export const weddingDate = {
 
 export const venue = {
   name: 'Nisa Event Center',
-  street: 'Industrivangen 26',
+  street: 'Vejleåvej 56',
   postalCode: '2635',
   city: 'Ishøj',
   country: 'Danmark',
-  /** Geokodet via OpenStreetMap Nominatim. */
-  lat: 55.605978,
-  lng: 12.351007,
+  /** Geokodet via OpenStreetMap Nominatim: "56, Vejleåvej, Ishøj, 2635". */
+  lat: 55.616892,
+  lng: 12.314681,
 } as const;
 
 export const venueQuery = encodeURIComponent(
@@ -98,14 +98,17 @@ export const program: ProgramItem[] = [
   },
 ];
 
+/** Adressen skrives ét sted, så teksterne aldrig kan komme til at pege forkert. */
+const fullAddress = `${venue.street}, ${venue.postalCode} ${venue.city}`;
+
 export const transport = [
   {
     title: 'Med tog',
-    body: 'Tag S-toget linje A eller E til Ishøj Station. Derfra er der cirka 15 minutters gang eller en kort tur med bus eller taxa.',
+    body: 'Tag S-toget linje A eller E til Ishøj Station. Derfra er der cirka 3 km til lokalet — tag bus eller taxa den sidste del af vejen.',
   },
   {
     title: 'I bil',
-    body: 'Sæt Industrivangen 26, 2635 Ishøj i GPS\u2019en. Der er gratis parkering ved adressen.',
+    body: `Sæt ${fullAddress} i GPS\u2019en. Der er gratis parkering ved adressen.`,
   },
 ] as const;
 
@@ -119,8 +122,7 @@ export const faq: FaqItem[] = [
   },
   {
     question: 'Er der parkering ved lokationen?',
-    answer:
-      'Ja, der er gratis parkering ved Industrivangen 26. Kør gerne sammen hvis I kan.',
+    answer: `Ja, der er gratis parkering ved ${fullAddress}. Kør gerne sammen hvis I kan.`,
   },
   {
     question: 'Må jeg tage billeder?',
