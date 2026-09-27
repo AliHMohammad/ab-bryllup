@@ -11,7 +11,11 @@
     "preview": "astro preview",
     "astro": "astro",
     "dev:netlify": "npm run build && netlify dev",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:api": "playwright test --project=api",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@netlify/blobs": "^10.7.13",
@@ -27,7 +31,9 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@netlify/functions": "^6.0.0",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^26.6.3",
+    "netlify-cli": "^27.10.0",
     "prettier": "^3.9.9",
     "prettier-plugin-astro": "^1.1.0",
     "typescript": "^6.0.3"

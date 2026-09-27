@@ -100,7 +100,17 @@ export default async (request: Request, context: Context) => {
 
   let body: Record<string, unknown>;
   try {
-    body = (await request.json()) as Record<string, unknown>;
+    const parsed: unknown = await request.json();
+    // `null`, tal, tekst og lister er gyldig JSON, men ikke en hilsen.
+    // Uden dette tjek ville et `null`-kald få funktionen til at fejle med 500.
+    if (
+      parsed === null ||
+      typeof parsed !== 'object' ||
+      Array.isArray(parsed)
+    ) {
+      return json({ error: 'Ugyldigt format.' }, 400);
+    }
+    body = parsed as Record<string, unknown>;
   } catch {
     return json({ error: 'Ugyldigt format.' }, 400);
   }

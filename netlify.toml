@@ -13,7 +13,7 @@
 [dev]
   framework = "#static"
   publish = "dist"
-  targetPort = 4321
+  port = 8899
 
 [[headers]]
   for = "/*"

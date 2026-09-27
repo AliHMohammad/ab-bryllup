@@ -34,3 +34,9 @@ pnpm-debug.log*
 .env.*
 !.env.example
 deno.lock
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+.playwright/
