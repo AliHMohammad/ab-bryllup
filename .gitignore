@@ -1,38 +1,17 @@
-# build output
+# Byggeoutput
 dist/
-# generated types
 .astro/
 
-# dependencies
+# Afhængigheder
 node_modules/
 
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
-
-# Local Netlify folder
-.netlify
-
-# Netlify
-.netlify/
-
-# Miljøvariabler
+# Miljøvariabler — .env.example er med i repoet med vilje
 .env
 .env.*
 !.env.example
+
+# Netlify (lokal dev, funktioner og Blobs)
+.netlify/
 deno.lock
 
 # Playwright
@@ -40,3 +19,13 @@ test-results/
 playwright-report/
 blob-report/
 .playwright/
+
+# Logfiler
+*-debug.log*
+
+# Personlige noter
+TO_DO.md
+
+# Editor og OS
+.DS_Store
+.idea/
