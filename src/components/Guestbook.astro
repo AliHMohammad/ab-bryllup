@@ -1,0 +1,248 @@
+---
+import { guestbook } from '../content/wedding';
+---
+
+<section id="gaestebog" class="section">
+  <div class="shell">
+    <header class="reveal max-w-xl">
+      <p class="eyebrow">Skriv til os</p>
+      <h2 class="section-title">{guestbook.heading}</h2>
+      <hr class="rule" />
+      <p class="mt-5 text-ink-soft">{guestbook.intro}</p>
+    </header>
+
+    <div class="mt-12 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-14">
+      <form
+        class="reveal rounded-2xl border border-sand-deep/60 bg-surface p-6 sm:p-8"
+        data-guestbook-form
+        novalidate
+      >
+        <div>
+          <label
+            class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
+            for="gb-name"
+          >
+            {guestbook.nameLabel}
+          </label>
+          <input
+            id="gb-name"
+            name="name"
+            type="text"
+            required
+            maxlength={guestbook.maxNameLength}
+            autocomplete="name"
+            class="mt-2 w-full rounded-lg border border-sand-deep bg-canvas px-4 py-3 text-ink outline-none focus:border-accent"
+          />
+          <p
+            class="mt-1.5 hidden text-sm text-red-700"
+            data-error-for="name"
+          ></p>
+        </div>
+
+        <div class="mt-6">
+          <label
+            class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
+            for="gb-message"
+          >
+            {guestbook.messageLabel}
+          </label>
+          <textarea
+            id="gb-message"
+            name="message"
+            required
+            rows="5"
+            maxlength={guestbook.maxMessageLength}
+            class="mt-2 w-full resize-y rounded-lg border border-sand-deep bg-canvas px-4 py-3 text-ink outline-none focus:border-accent"
+          ></textarea>
+          <p
+            class="mt-1.5 hidden text-sm text-red-700"
+            data-error-for="message"
+          ></p>
+        </div>
+
+        {/* Honeypot: skjult for mennesker, udfyldes typisk af bots. */}
+        <div class="absolute left-[-9999px]" aria-hidden="true">
+          <label for="gb-website">Efterlad dette felt tomt</label>
+          <input
+            id="gb-website"
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-7 w-full sm:w-auto">
+          {guestbook.submitLabel}
+        </button>
+
+        <p
+          class="mt-4 hidden text-sm"
+          data-form-status
+          role="status"
+          aria-live="polite"
+        ></p>
+      </form>
+
+      <div class="reveal">
+        <ul class="space-y-5" data-guestbook-list>
+          <li class="text-ink-faint" data-guestbook-placeholder>
+            {guestbook.loadingState}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<template data-guestbook-template>
+  <li class="rounded-2xl border border-sand-deep/50 bg-surface p-5 sm:p-6">
+    <p class="whitespace-pre-line text-ink-soft" data-entry-message></p>
+    <p class="font-display mt-4 text-lg text-ink" data-entry-name></p>
+    <p
+      class="text-xs tracking-[0.12em] uppercase text-ink-faint"
+      data-entry-date
+    ></p>
+  </li>
+</template>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-guestbook-form]');
+  const list = document.querySelector<HTMLUListElement>(
+    '[data-guestbook-list]',
+  );
+  const template = document.querySelector<HTMLTemplateElement>(
+    '[data-guestbook-template]',
+  );
+  const status = document.querySelector<HTMLElement>('[data-form-status]');
+
+  const TEXT = {
+    nameRequired: 'Skriv venligst dit navn.',
+    messageRequired: 'Skriv venligst en hilsen.',
+    sending: 'Sender \u2026',
+    submit: 'Send hilsen',
+    success:
+      'Tusind tak for din hilsen! Den vises på siden, så snart vi har set den.',
+    error:
+      'Noget gik galt, og din hilsen blev ikke sendt. Prøv venligst igen om lidt.',
+    empty: 'Der er ingen hilsner endnu. Bliv den første til at skrive.',
+  };
+
+  const setStatus = (message: string, kind: 'ok' | 'fail') => {
+    if (!status) return;
+    status.textContent = message;
+    status.classList.remove('hidden', 'text-accent', 'text-red-700');
+    status.classList.add(kind === 'ok' ? 'text-accent' : 'text-red-700');
+  };
+
+  const showFieldError = (field: string, message: string | null) => {
+    const el = form?.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+    const input = form?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
+      `[name="${field}"]`,
+    );
+    if (!el || !input) return;
+    el.textContent = message ?? '';
+    el.classList.toggle('hidden', !message);
+    input.setAttribute('aria-invalid', message ? 'true' : 'false');
+  };
+
+  const renderEntries = (
+    entries: Array<{ name: string; message: string; date?: string }>,
+  ) => {
+    if (!list || !template) return;
+    list.innerHTML = '';
+
+    if (!entries.length) {
+      const empty = document.createElement('li');
+      empty.className = 'text-ink-faint';
+      empty.textContent = TEXT.empty;
+      list.append(empty);
+      return;
+    }
+
+    const formatter = new Intl.DateTimeFormat('da-DK', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+
+    entries.forEach((entry) => {
+      const node = template.content.cloneNode(true) as DocumentFragment;
+      // textContent (ikke innerHTML) — gæsteindhold indsættes aldrig som HTML.
+      node.querySelector<HTMLElement>('[data-entry-message]')!.textContent =
+        entry.message;
+      node.querySelector<HTMLElement>('[data-entry-name]')!.textContent =
+        entry.name;
+      const dateEl = node.querySelector<HTMLElement>('[data-entry-date]')!;
+      const parsed = entry.date ? new Date(entry.date) : null;
+      dateEl.textContent =
+        parsed && !Number.isNaN(parsed.getTime())
+          ? formatter.format(parsed)
+          : '';
+      list.append(node);
+    });
+  };
+
+  const loadEntries = async () => {
+    try {
+      const res = await fetch('/api/guestbook');
+      if (!res.ok) throw new Error(String(res.status));
+      const data = await res.json();
+      renderEntries(Array.isArray(data.entries) ? data.entries : []);
+    } catch {
+      // Gæstebogen er ikke kritisk — fejler den, viser vi bare tom-tilstanden.
+      renderEntries([]);
+    }
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form) return;
+
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const message = String(data.get('message') ?? '').trim();
+
+    showFieldError('name', name ? null : TEXT.nameRequired);
+    showFieldError('message', message ? null : TEXT.messageRequired);
+    if (!name || !message) {
+      form.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+      return;
+    }
+
+    const button = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]',
+    );
+    if (button) {
+      button.disabled = true;
+      button.textContent = TEXT.sending;
+    }
+    status?.classList.add('hidden');
+
+    try {
+      const res = await fetch('/api/guestbook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          message,
+          website: String(data.get('website') ?? ''),
+        }),
+      });
+
+      if (!res.ok) throw new Error(String(res.status));
+
+      form.reset();
+      setStatus(TEXT.success, 'ok');
+    } catch {
+      setStatus(TEXT.error, 'fail');
+    } finally {
+      if (button) {
+        button.disabled = false;
+        button.textContent = TEXT.submit;
+      }
+    }
+  });
+
+  loadEntries();
+</script>

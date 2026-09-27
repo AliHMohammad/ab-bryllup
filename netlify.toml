@@ -1,0 +1,33 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+# Lokal kørsel med funktioner: `npm run build && npx netlify dev`
+# Vi serverer det byggede output, fordi `astro dev` kører som baggrundsproces
+# og derfor får Netlify Dev til at lukke ned med det samme.
+[dev]
+  framework = "#static"
+  publish = "dist"
+  targetPort = 4321
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Siden er ulistet — bed søgemaskiner om at holde sig væk, også på header-niveau.
+    X-Robots-Tag = "noindex, nofollow"
+
+# Hashede build-assets kan caches aggressivt.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

@@ -1,0 +1,26 @@
+---
+import { couple, weddingDate, venue } from '../content/wedding';
+---
+
+<footer class="border-t border-sand-deep/50 bg-sand">
+  <div class="shell py-16 text-center">
+    <p class="font-display text-3xl sm:text-4xl">
+      {couple.one} &amp; {couple.two}
+    </p>
+
+    <hr class="rule rule-center" />
+
+    <p class="mt-6 text-ink-soft">
+      {weddingDate.weekday} den {weddingDate.dateLong} &middot; kl.{' '}
+      {weddingDate.time}
+    </p>
+    <p class="mt-1 text-ink-soft">
+      {venue.name}, {venue.street}, {venue.postalCode}
+      {venue.city}
+    </p>
+
+    <p class="mt-10 text-xs tracking-[0.16em] uppercase text-ink-faint">
+      Vi glæder os til at se jer
+    </p>
+  </div>
+</footer>

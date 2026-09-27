@@ -1,0 +1,35 @@
+{
+  "name": "bryllup",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "dev:netlify": "npm run build && netlify dev",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^10.7.13",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.5",
+    "tailwindcss": "^4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "description": "Bryllupsinvitation for Ali & Berfin — 12. december 2026",
+  "private": "true",
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@netlify/functions": "^6.0.0",
+    "@types/node": "^26.6.3",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
+    "typescript": "^6.0.3"
+  }
+}

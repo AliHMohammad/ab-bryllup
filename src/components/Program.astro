@@ -1,0 +1,47 @@
+---
+import { program, weddingDate } from '../content/wedding';
+---
+
+<section id="program" class="section">
+  <div class="shell">
+    <header class="reveal max-w-xl">
+      <p class="eyebrow">
+        {weddingDate.weekday} {weddingDate.dateLong}
+      </p>
+      <h2 class="section-title">Dagens program</h2>
+      <hr class="rule" />
+    </header>
+
+    <ol class="mt-12 md:mt-16">
+      {program.map((item) => (
+        <li class="reveal relative border-l border-sand-deep pb-10 pl-6 last:pb-0 sm:grid sm:grid-cols-[7rem_1fr] sm:gap-x-8 sm:border-l-0 sm:pl-0">
+          {/* Under 640px står tiden over titlen, så teksten får fuld bredde. */}
+          <span
+            class="absolute left-[-4.5px] top-2.5 block h-2 w-2 rounded-full bg-accent-soft sm:hidden"
+            aria-hidden="true"
+          />
+
+          <div class="sm:text-right">
+            <span class="font-display text-2xl text-accent sm:text-3xl">
+              {item.time}
+            </span>
+          </div>
+
+          <div class="relative mt-1 sm:mt-0 sm:border-l sm:border-sand-deep sm:pb-2 sm:pl-8">
+            <span
+              class="absolute left-[-4.5px] top-2.5 hidden h-2 w-2 rounded-full bg-accent-soft sm:block"
+              aria-hidden="true"
+            />
+            <h3 class="text-xl sm:text-2xl">{item.title}</h3>
+            <p class="mt-2 text-ink-soft">{item.description}</p>
+            {!item.confirmed && (
+              <p class="mt-2 text-xs tracking-[0.12em] uppercase text-ink-faint">
+                Vejledende tidspunkt
+              </p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

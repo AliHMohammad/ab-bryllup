@@ -1,0 +1,143 @@
+---
+import { weddingDate } from '../content/wedding';
+
+/**
+ * Starttallene regnes ud ved build, så der ikke er et tomt hul før JS kører.
+ * Scriptet nedenfor opdaterer dem hvert sekund i browseren.
+ */
+const target = new Date(weddingDate.iso).getTime();
+const diff = Math.max(0, target - Date.now());
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
+const day = 24 * hour;
+
+const initial = {
+  days: Math.floor(diff / day),
+  hours: Math.floor((diff % day) / hour),
+  minutes: Math.floor((diff % hour) / minute),
+  seconds: Math.floor((diff % minute) / second),
+};
+
+const units = [
+  { key: 'days', singular: 'dag', plural: 'dage', value: initial.days },
+  { key: 'hours', singular: 'time', plural: 'timer', value: initial.hours },
+  {
+    key: 'minutes',
+    singular: 'minut',
+    plural: 'minutter',
+    value: initial.minutes,
+  },
+  {
+    key: 'seconds',
+    singular: 'sekund',
+    plural: 'sekunder',
+    value: initial.seconds,
+  },
+];
+---
+
+<div data-countdown data-target={weddingDate.iso}>
+  <p class="sr-only" data-countdown-sr aria-live="polite">
+    Der er {initial.days} dage til brylluppet.
+  </p>
+
+  <ol
+    class="mx-auto grid max-w-md grid-cols-4 gap-2 sm:gap-4"
+    data-countdown-list
+  >
+    {units.map((unit) => (
+      <li
+        class="rounded-xl border border-sand-deep/50 bg-surface/60 px-1 py-4 backdrop-blur-sm sm:px-3"
+        data-unit={unit.key}
+        data-singular={unit.singular}
+        data-plural={unit.plural}
+      >
+        <span
+          class="font-display block text-3xl tabular-nums sm:text-4xl"
+          data-value
+        >
+          {unit.value}
+        </span>
+        <span
+          class="mt-1 block text-[0.625rem] tracking-[0.16em] uppercase text-ink-faint sm:text-xs"
+          data-label
+        >
+          {unit.value === 1 ? unit.singular : unit.plural}
+        </span>
+      </li>
+    ))}
+  </ol>
+
+  <p class="mt-6 hidden text-lead text-accent" data-today>
+    I dag er dagen!
+  </p>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-countdown]');
+  const list = root?.querySelector<HTMLElement>('[data-countdown-list]');
+  const today = root?.querySelector<HTMLElement>('[data-today]');
+  const srStatus = root?.querySelector<HTMLElement>('[data-countdown-sr]');
+  const target = root?.dataset.target
+    ? new Date(root.dataset.target).getTime()
+    : NaN;
+
+  if (root && list && !Number.isNaN(target)) {
+    const SECOND = 1000;
+    const MINUTE = 60 * SECOND;
+    const HOUR = 60 * MINUTE;
+    const DAY = 24 * HOUR;
+
+    let lastAnnouncedDays = -1;
+
+    const render = () => {
+      const diff = target - Date.now();
+
+      if (diff <= 0) {
+        list.hidden = true;
+        today?.classList.remove('hidden');
+        if (srStatus) srStatus.textContent = 'I dag er dagen!';
+        return true;
+      }
+
+      const values: Record<string, number> = {
+        days: Math.floor(diff / DAY),
+        hours: Math.floor((diff % DAY) / HOUR),
+        minutes: Math.floor((diff % HOUR) / MINUTE),
+        seconds: Math.floor((diff % MINUTE) / SECOND),
+      };
+
+      list.querySelectorAll<HTMLElement>('[data-unit]').forEach((item) => {
+        const key = item.dataset.unit ?? '';
+        const value = values[key] ?? 0;
+        const valueEl = item.querySelector<HTMLElement>('[data-value]');
+        const labelEl = item.querySelector<HTMLElement>('[data-label]');
+        if (valueEl) valueEl.textContent = String(value);
+        if (labelEl) {
+          labelEl.textContent =
+            value === 1
+              ? (item.dataset.singular ?? '')
+              : (item.dataset.plural ?? '');
+        }
+      });
+
+      // Oplæs kun én gang i døgnet, så skærmlæsere ikke afbrydes hvert sekund.
+      if (srStatus && values.days !== lastAnnouncedDays) {
+        lastAnnouncedDays = values.days;
+        srStatus.textContent =
+          values.days === 1
+            ? 'Der er 1 dag til brylluppet.'
+            : `Der er ${values.days} dage til brylluppet.`;
+      }
+
+      return false;
+    };
+
+    if (!render()) {
+      const timer = window.setInterval(() => {
+        if (render()) window.clearInterval(timer);
+      }, 1000);
+    }
+  }
+</script>

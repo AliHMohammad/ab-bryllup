@@ -1,0 +1,125 @@
+---
+import { venue, maps, transport, weddingDate } from '../content/wedding';
+---
+
+<section id="sted" class="section bg-surface">
+  <div class="shell">
+    <header class="reveal max-w-xl">
+      <p class="eyebrow">Sådan finder I os</p>
+      <h2 class="section-title">Sted &amp; transport</h2>
+      <hr class="rule" />
+    </header>
+
+    <div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-14">
+      <div class="reveal">
+        <h3 class="text-2xl">{venue.name}</h3>
+        <address class="mt-3 text-lead not-italic text-ink-soft">
+          {venue.street}
+          <br />
+          {venue.postalCode}
+          {venue.city}
+        </address>
+
+        <p class="mt-4 text-ink-soft">
+          {weddingDate.weekday} den {weddingDate.dateLong} — vi begynder klokken{' '}
+          {weddingDate.time}.
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a
+            class="btn btn-primary"
+            href={maps.google}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Maps
+          </a>
+          <a
+            class="btn btn-outline"
+            href={maps.apple}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Apple Maps
+          </a>
+        </div>
+
+        <dl class="mt-10 space-y-6">
+          {transport.map((item) => (
+            <div>
+              <dt class="text-sm tracking-[0.16em] uppercase text-ink-faint">
+                {item.title}
+              </dt>
+              <dd class="mt-1.5 text-ink-soft">{item.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      <div class="reveal">
+        <div
+          class="relative overflow-hidden rounded-2xl border border-sand-deep/60 bg-sand"
+          data-map
+        >
+          <iframe
+            src={maps.osmEmbed}
+            title={`Kort der viser ${venue.name}, ${venue.street}, ${venue.postalCode} ${venue.city}`}
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="block h-88 w-full border-0 md:h-112"
+          ></iframe>
+
+          {/*
+            Uden dette lag "fanger" kortet fingeren, når man scroller forbi på
+            mobilen. Laget forsvinder ved tryk, så kortet stadig kan bruges.
+          */}
+          <button
+            type="button"
+            data-map-activate
+            class="absolute inset-0 flex items-end justify-center bg-ink/5 pb-6 transition-colors hover:bg-ink/10"
+          >
+            <span class="rounded-full bg-canvas px-5 py-2.5 text-sm font-medium text-ink shadow-sm">
+              Tryk for at bruge kortet
+            </span>
+          </button>
+        </div>
+        <p class="mt-3 text-xs text-ink-faint">
+          Kortdata fra{' '}
+          <a
+            class="underline underline-offset-2 hover:text-accent"
+            href={maps.osmLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            OpenStreetMap
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const wrapper = document.querySelector<HTMLElement>('[data-map]');
+  const overlay = wrapper?.querySelector<HTMLButtonElement>(
+    '[data-map-activate]',
+  );
+
+  if (wrapper && overlay) {
+    overlay.addEventListener('click', () => overlay.remove());
+
+    // Sæt laget tilbage når kortet ruller ud af syne, så det ikke stjæler scroll senere.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !overlay.isConnected) {
+            wrapper.append(overlay);
+          }
+        });
+      },
+      { threshold: 0 },
+    );
+    observer.observe(wrapper);
+  }
+</script>

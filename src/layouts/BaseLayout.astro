@@ -1,0 +1,104 @@
+---
+import '../styles/global.css';
+import { site, couple, weddingDate, venue } from '../content/wedding';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = site.title, description = site.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL('/og.png', site.url).href;
+---
+
+<!doctype html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#faf7f2" />
+
+    <!-- Siden er ulistet: den må kun findes via linket vi selv sender ud. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="googlebot" content="noindex, nofollow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={`${couple.one} & ${couple.two}`} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap"
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Event',
+        name: `${couple.oneFull} & ${couple.twoFull} — Bryllup`,
+        startDate: weddingDate.iso,
+        eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+        location: {
+          '@type': 'Place',
+          name: venue.name,
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: venue.street,
+            postalCode: venue.postalCode,
+            addressLocality: venue.city,
+            addressCountry: 'DK',
+          },
+        },
+      })}
+    />
+  </head>
+  <body>
+    <a
+      href="#indhold"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-canvas"
+    >
+      Spring til indhold
+    </a>
+    <slot />
+
+    <script>
+      // Blid indtoning når sektioner kommer i syne.
+      const prefersReduced = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+      const items = document.querySelectorAll<HTMLElement>('.reveal');
+
+      if (prefersReduced || !('IntersectionObserver' in window)) {
+        items.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.1 },
+        );
+        items.forEach((el) => observer.observe(el));
+      }
+    </script>
+  </body>
+</html>

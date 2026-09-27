@@ -1,0 +1,42 @@
+---
+import { couple, weddingDate, venue } from '../content/wedding';
+import Countdown from './Countdown.astro';
+---
+
+<section id="top" class="relative flex min-h-svh flex-col justify-center">
+  <!-- Erstat med et rigtigt billede: læg filen i src/assets/ og brug <Image />. -->
+  <div class="absolute inset-0 -z-10 bg-sand" aria-hidden="true">
+    <div class="h-full w-full bg-[radial-gradient(ellipse_at_50%_30%,#faf7f2_0%,#ece3d7_55%,#ddd0be_100%)]"></div>
+  </div>
+
+  <div class="shell py-28 text-center">
+    <p class="eyebrow">
+      {weddingDate.weekday} {weddingDate.dateLong}
+    </p>
+
+    <h1 class="mt-6 text-hero leading-[0.95]">
+      <span class="block">{couple.one}</span>
+      <span class="my-1 block text-[0.42em] text-accent italic">&amp;</span>
+      <span class="block">{couple.two}</span>
+    </h1>
+
+    <hr class="rule rule-center" />
+
+    <p class="mt-6 text-lead text-ink-soft">
+      Vi skal giftes — og vi vil gerne have jer med.
+    </p>
+
+    <p class="mt-2 text-sm tracking-[0.18em] uppercase text-ink-faint">
+      {venue.name} &middot; {venue.city} &middot; kl. {weddingDate.time}
+    </p>
+
+    <div class="mt-12">
+      <Countdown />
+    </div>
+
+    <a href="#program" class="btn btn-primary mt-12">
+      {' '}
+      Se programmet{' '}
+    </a>
+  </div>
+</section>

@@ -1,0 +1,3 @@
+# Siden er en privat invitation og skal ikke kunne findes via søgemaskiner.
+User-agent: *
+Disallow: /
