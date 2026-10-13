@@ -154,8 +154,10 @@ test.describe('sted & transport', () => {
     const google = page.getByRole('link', { name: /Google Maps/i });
     await expect(google).toHaveAttribute(
       'href',
-      /Vejle(å|%C3%A5)vej(\+|%20)56.*Ish/i,
+      /query=Vejle(å|%C3%A5)vej(\+|%20)56.*2635.*Ish/i,
     );
+    // Virksomhedsnavnet får Google til at vise en forkert adresse.
+    await expect(google).not.toHaveAttribute('href', /Nisa/i);
 
     const apple = page.getByRole('link', { name: /Apple Maps/i });
     await expect(apple).toHaveAttribute('href', /maps\.apple\.com/);
