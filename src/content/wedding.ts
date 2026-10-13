@@ -42,8 +42,16 @@ export const venueQuery = encodeURIComponent(
   `${venue.name}, ${venue.street}, ${venue.postalCode} ${venue.city}, ${venue.country}`,
 );
 
+/**
+ * Google slår navnet "Nisa Event Center" op som en virksomhed med en forkert
+ * adresse, så Google Maps får kun selve adressen.
+ */
+export const addressQuery = encodeURIComponent(
+  `${venue.street}, ${venue.postalCode} ${venue.city}, ${venue.country}`,
+);
+
 export const maps = {
-  google: `https://www.google.com/maps/search/?api=1&query=${venueQuery}`,
+  google: `https://www.google.com/maps/search/?api=1&query=${addressQuery}`,
   apple: `https://maps.apple.com/?q=${venueQuery}&ll=${venue.lat},${venue.lng}`,
   /** Lille bbox omkring adressen, så indlejringen zoomer helt ind. */
   osmEmbed: `https://www.openstreetmap.org/export/embed.html?bbox=${
