@@ -32,14 +32,7 @@ test.describe('forside', () => {
   });
 
   test('alle sektioner findes', async ({ page }) => {
-    for (const id of [
-      'top',
-      'program',
-      'sted',
-      'billeder',
-      'faq',
-      'gaestebog',
-    ]) {
+    for (const id of ['top', 'program', 'sted', 'billeder', 'gaestebog']) {
       await expect(page.locator(`#${id}`)).toHaveCount(1);
     }
   });
@@ -101,32 +94,27 @@ test.describe('nedtælling', () => {
 });
 
 test.describe('program', () => {
-  test('viser alle fire punkter i rækkefølge', async ({ page }) => {
+  test('viser alle fem punkter i rækkefølge', async ({ page }) => {
     const items = page.locator('#program ol > li');
-    await expect(items).toHaveCount(4);
+    await expect(items).toHaveCount(5);
 
     await expect(items).toContainText([
-      'Ankomst & vielse',
-      'Reception',
+      'Velkomst',
+      'Brudeparrets entré',
       'Middag',
-      'Fest & dans',
+      'Bryllupskage',
+      'Fest',
     ]);
   });
 
-  test('vielsen står til 16:00', async ({ page }) => {
+  test('velkomsten står til 16:00', async ({ page }) => {
     const first = page.locator('#program ol > li').first();
     await expect(first).toContainText('16:00');
-    await expect(first).toContainText('Ankomst & vielse');
+    await expect(first).toContainText('Velkomst');
   });
 
-  test('ubekræftede tidspunkter er markeret som vejledende', async ({
-    page,
-  }) => {
-    const items = page.locator('#program ol > li');
-
-    // Kun det første punkt er bekræftet i wedding.ts.
-    await expect(items.first()).not.toContainText('Vejledende tidspunkt');
-    await expect(page.getByText('Vejledende tidspunkt')).toHaveCount(3);
+  test('alle tidspunkter er bekræftede', async ({ page }) => {
+    await expect(page.getByText('Vejledende tidspunkt')).toHaveCount(0);
   });
 
   test('teksten har plads nok på små skærme', async ({ page }, testInfo) => {
@@ -194,34 +182,6 @@ test.describe('sted & transport', () => {
   });
 });
 
-test.describe('ofte stillede spørgsmål', () => {
-  test('alle spørgsmål vises og er lukkede fra start', async ({ page }) => {
-    const items = page.locator('#faq details');
-    await expect(items).toHaveCount(4);
-
-    for (let i = 0; i < 4; i++) {
-      await expect(items.nth(i)).not.toHaveAttribute('open', '');
-    }
-  });
-
-  test('et spørgsmål kan åbnes', async ({ page }) => {
-    const first = page.locator('#faq details').first();
-    await first.locator('summary').click();
-    await expect(first).toHaveAttribute('open', '');
-    await expect(first.locator('p')).toBeVisible();
-  });
-
-  test('kun ét svar er åbent ad gangen', async ({ page }) => {
-    const items = page.locator('#faq details');
-    await items.nth(0).locator('summary').click();
-    await expect(items.nth(0)).toHaveAttribute('open', '');
-
-    await items.nth(1).locator('summary').click();
-    await expect(items.nth(1)).toHaveAttribute('open', '');
-    await expect(items.nth(0)).not.toHaveAttribute('open', '');
-  });
-});
-
 test.describe('navigation', () => {
   test('springer til den valgte sektion', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === 'mobil', 'menuen testes separat');
@@ -282,7 +242,6 @@ test.describe('mobilmenu', () => {
       'Program',
       'Sted',
       'Del billeder',
-      'Spørgsmål',
       'Gæstebog',
     ]);
 

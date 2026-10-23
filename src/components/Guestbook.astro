@@ -5,7 +5,7 @@ import { t } from '../i18n';
 const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 ---
 
-<section id="gaestebog" class="section">
+<section id="gaestebog" class="section bg-surface">
   <div class="shell">
     <header class="reveal max-w-xl">
       <p class="eyebrow" {...t(eyebrow)}>
@@ -22,7 +22,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 
     <div class="mt-12 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-14">
       <form
-        class="reveal rounded-2xl border border-sand-deep/60 bg-surface p-6 sm:p-8"
+        class="reveal rounded-2xl border border-sand-deep/60 bg-canvas p-6 sm:p-8"
         data-guestbook-form
         novalidate
       >
@@ -41,7 +41,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
             required
             maxlength={guestbook.maxNameLength}
             autocomplete="name"
-            class="mt-2 w-full rounded-lg border border-sand-deep bg-canvas px-4 py-3 text-ink outline-none focus:border-accent"
+            class="mt-2 w-full rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
           />
           <p
             class="mt-1.5 hidden text-sm text-red-700"
@@ -63,7 +63,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
             required
             rows="5"
             maxlength={guestbook.maxMessageLength}
-            class="mt-2 w-full resize-y rounded-lg border border-sand-deep bg-canvas px-4 py-3 text-ink outline-none focus:border-accent"
+            class="mt-2 w-full resize-y rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
           ></textarea>
           <p
             class="mt-1.5 hidden text-sm text-red-700"
@@ -115,7 +115,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 </section>
 
 <template data-guestbook-template>
-  <li class="rounded-2xl border border-sand-deep/50 bg-surface p-5 sm:p-6">
+  <li class="rounded-2xl border border-sand-deep/50 bg-canvas p-5 sm:p-6">
     <p class="whitespace-pre-line text-ink-soft" data-entry-message></p>
     <p class="font-display mt-4 text-lg text-ink" data-entry-name></p>
     <p

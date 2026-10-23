@@ -74,12 +74,12 @@ export const nav: { href: string; label: Text }[] = [
   { href: '#program', label: { da: 'Program', en: 'Programme' } },
   { href: '#sted', label: { da: 'Sted', en: 'Venue' } },
   { href: '#billeder', label: { da: 'Del billeder', en: 'Share photos' } },
-  { href: '#faq', label: { da: 'Spørgsmål', en: 'FAQ' } },
   { href: '#gaestebog', label: { da: 'Gæstebog', en: 'Guestbook' } },
 ];
 
 export type ProgramItem = {
-  time: string;
+  /** Udelad for punkter uden fast tidspunkt. */
+  time?: string;
   title: Text;
   description: Text;
   /** Sæt til true når tidspunktet er endeligt bekræftet. */
@@ -89,39 +89,47 @@ export type ProgramItem = {
 export const program: ProgramItem[] = [
   {
     time: '16:00',
-    title: { da: 'Ankomst & vielse', en: 'Arrival & ceremony' },
+    title: { da: 'Velkomst', en: 'Welcome' },
     description: {
-      da: 'Dørene åbner, og vi beder jer være på plads i god tid, så vi kan begynde til tiden.',
-      en: 'The doors open — please be seated in good time so we can begin on schedule.',
+      da: 'Gæsterne ankommer. Der er musik og dans.',
+      en: 'Guests arrive. There will be music and dancing.',
     },
     confirmed: true,
   },
   {
     time: '17:00',
-    title: { da: 'Reception', en: 'Reception' },
+    title: { da: 'Brudeparrets entré', en: 'The couple\u2019s entrance' },
     description: {
-      da: 'Velkomstdrinks, lykønskninger og de første billeder.',
-      en: 'Welcome drinks, congratulations and the first photos.',
+      da: 'Vi ankommer og glæder os til at fejre med jer.',
+      en: 'We arrive and look forward to celebrating with you.',
     },
-    confirmed: false,
+    confirmed: true,
   },
   {
     time: '18:30',
     title: { da: 'Middag', en: 'Dinner' },
     description: {
-      da: 'Vi sætter os til bords og spiser sammen.',
-      en: 'We sit down and share a meal together.',
+      da: 'Der serveres aftensmad.',
+      en: 'Dinner is served.',
     },
-    confirmed: false,
+    confirmed: true,
   },
   {
-    time: '21:00',
-    title: { da: 'Fest & dans', en: 'Party & dancing' },
+    time: '20:00',
+    title: { da: 'Bryllupskage', en: 'Wedding cake' },
     description: {
-      da: 'Kagen skæres, musikken skrues op, og festen fortsætter.',
-      en: 'The cake is cut, the music turned up, and the party goes on.',
+      da: 'Vi skærer kagen, efterfulgt af mere musik og dans.',
+      en: 'We cut the cake, followed by more music and dancing.',
     },
-    confirmed: false,
+    confirmed: true,
+  },
+  {
+    title: { da: 'Fest', en: 'Party' },
+    description: {
+      da: 'Festen fortsætter resten af aftenen.',
+      en: 'The party continues for the rest of the evening.',
+    },
+    confirmed: true,
   },
 ];
 
@@ -141,48 +149,6 @@ export const transport: { title: Text; body: Text }[] = [
     body: {
       da: `Sæt ${fullAddress} i GPS\u2019en. Der er gratis parkering ved adressen.`,
       en: `Enter ${fullAddress} in your GPS. There is free parking at the address.`,
-    },
-  },
-];
-
-export type FaqItem = { question: Text; answer: Text };
-
-export const faq: FaqItem[] = [
-  {
-    question: {
-      da: 'Hvornår skal jeg være der?',
-      en: 'When should I arrive?',
-    },
-    answer: {
-      da: 'Vi begynder klokken 16:00. Kom gerne 15\u201320 minutter før, så alle er på plads, når vi starter.',
-      en: 'We begin at 16:00. Please arrive 15\u201320 minutes early so everyone is seated when we start.',
-    },
-  },
-  {
-    question: {
-      da: 'Er der parkering ved lokationen?',
-      en: 'Is there parking at the venue?',
-    },
-    answer: {
-      da: `Ja, der er gratis parkering ved ${fullAddress}. Kør gerne sammen hvis I kan.`,
-      en: `Yes, there is free parking at ${fullAddress}. Please carpool if you can.`,
-    },
-  },
-  {
-    question: { da: 'Må jeg tage billeder?', en: 'May I take photos?' },
-    answer: {
-      da: 'Meget gerne — men lad venligst telefonen blive i lommen under selve vielsen, så vores fotograf kan få de bedste billeder. Resten af dagen må I meget gerne dele jeres billeder med os via QR-koden eller linket under \u201cDel billeder\u201d.',
-      en: 'Absolutely — but please keep your phone in your pocket during the ceremony itself, so our photographer can get the best shots. For the rest of the day, we would love for you to share your photos with us via the QR code or link under \u201cShare photos\u201d.',
-    },
-  },
-  {
-    question: {
-      da: 'Hvem kan jeg kontakte, hvis jeg er i tvivl om noget?',
-      en: 'Who can I contact if I have any questions?',
-    },
-    answer: {
-      da: 'Skriv til os direkte, så vender vi tilbage hurtigst muligt.',
-      en: 'Write to us directly and we will get back to you as soon as possible.',
     },
   },
 ];

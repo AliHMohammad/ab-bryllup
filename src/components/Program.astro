@@ -28,9 +28,11 @@ const tentative = { da: 'Vejledende tidspunkt', en: 'Approximate time' };
           />
 
           <div class="sm:text-right">
-            <span class="font-display text-2xl text-accent sm:text-3xl">
-              {item.time}
-            </span>
+            {item.time && (
+              <span class="font-display text-2xl text-accent sm:text-3xl">
+                {item.time}
+              </span>
+            )}
           </div>
 
           <div class="relative mt-1 sm:mt-0 sm:border-l sm:border-sand-deep sm:pb-2 sm:pl-8">
