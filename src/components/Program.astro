@@ -1,14 +1,20 @@
 ---
-import { program, weddingDate } from '../content/wedding';
+import { program, weddingDay } from '../content/wedding';
+import { t } from '../i18n';
+
+const heading = { da: 'Dagens program', en: 'Programme of the day' };
+const tentative = { da: 'Vejledende tidspunkt', en: 'Approximate time' };
 ---
 
 <section id="program" class="section">
   <div class="shell">
     <header class="reveal max-w-xl">
-      <p class="eyebrow">
-        {weddingDate.weekday} {weddingDate.dateLong}
+      <p class="eyebrow" {...t(weddingDay)}>
+        {weddingDay.da}
       </p>
-      <h2 class="section-title">Dagens program</h2>
+      <h2 class="section-title" {...t(heading)}>
+        {heading.da}
+      </h2>
       <hr class="rule" />
     </header>
 
@@ -32,11 +38,18 @@ import { program, weddingDate } from '../content/wedding';
               class="absolute left-[-4.5px] top-2.5 hidden h-2 w-2 rounded-full bg-accent-soft sm:block"
               aria-hidden="true"
             />
-            <h3 class="text-xl sm:text-2xl">{item.title}</h3>
-            <p class="mt-2 text-ink-soft">{item.description}</p>
+            <h3 class="text-xl sm:text-2xl" {...t(item.title)}>
+              {item.title.da}
+            </h3>
+            <p class="mt-2 text-ink-soft" {...t(item.description)}>
+              {item.description.da}
+            </p>
             {!item.confirmed && (
-              <p class="mt-2 text-xs tracking-[0.12em] uppercase text-ink-faint">
-                Vejledende tidspunkt
+              <p
+                class="mt-2 text-xs tracking-[0.12em] uppercase text-ink-faint"
+                {...t(tentative)}
+              >
+                {tentative.da}
               </p>
             )}
           </div>

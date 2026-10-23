@@ -1,6 +1,17 @@
 ---
-import { couple, weddingDate, venue } from '../content/wedding';
+import { couple, weddingDate, weddingDay, venue } from '../content/wedding';
+import { compose, t } from '../i18n';
 import Countdown from './Countdown.astro';
+
+const tagline = {
+  da: 'Vi skal giftes — og vi vil gerne have jer med.',
+  en: 'We are getting married — and we would love for you to be there.',
+};
+const details = compose(
+  (lang) =>
+    `${venue.name} · ${venue.city} · ${lang === 'da' ? 'kl.' : 'at'} ${weddingDate.time}`,
+);
+const cta = { da: 'Se programmet', en: 'See the programme' };
 ---
 
 <section id="top" class="relative flex min-h-svh flex-col justify-center">
@@ -10,8 +21,8 @@ import Countdown from './Countdown.astro';
   </div>
 
   <div class="shell py-28 text-center">
-    <p class="eyebrow">
-      {weddingDate.weekday} {weddingDate.dateLong}
+    <p class="eyebrow" {...t(weddingDay)}>
+      {weddingDay.da}
     </p>
 
     <h1 class="mt-6 text-hero leading-[0.95]">
@@ -22,21 +33,23 @@ import Countdown from './Countdown.astro';
 
     <hr class="rule rule-center" />
 
-    <p class="mt-6 text-lead text-ink-soft">
-      Vi skal giftes — og vi vil gerne have jer med.
+    <p class="mt-6 text-lead text-ink-soft" {...t(tagline)}>
+      {tagline.da}
     </p>
 
-    <p class="mt-2 text-sm tracking-[0.18em] uppercase text-ink-faint">
-      {venue.name} &middot; {venue.city} &middot; kl. {weddingDate.time}
+    <p
+      class="mt-2 text-sm tracking-[0.18em] uppercase text-ink-faint"
+      {...t(details)}
+    >
+      {details.da}
     </p>
 
     <div class="mt-12">
       <Countdown />
     </div>
 
-    <a href="#program" class="btn btn-primary mt-12">
-      {' '}
-      Se programmet{' '}
+    <a href="#program" class="btn btn-primary mt-12" {...t(cta)}>
+      {cta.da}
     </a>
   </div>
 </section>
