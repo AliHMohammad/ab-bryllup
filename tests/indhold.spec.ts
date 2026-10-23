@@ -94,32 +94,27 @@ test.describe('nedtælling', () => {
 });
 
 test.describe('program', () => {
-  test('viser alle fire punkter i rækkefølge', async ({ page }) => {
+  test('viser alle fem punkter i rækkefølge', async ({ page }) => {
     const items = page.locator('#program ol > li');
-    await expect(items).toHaveCount(4);
+    await expect(items).toHaveCount(5);
 
     await expect(items).toContainText([
-      'Ankomst & vielse',
-      'Reception',
+      'Velkomst',
+      'Brudeparrets entré',
       'Middag',
-      'Fest & dans',
+      'Bryllupskage',
+      'Fest',
     ]);
   });
 
-  test('vielsen står til 16:00', async ({ page }) => {
+  test('velkomsten står til 16:00', async ({ page }) => {
     const first = page.locator('#program ol > li').first();
     await expect(first).toContainText('16:00');
-    await expect(first).toContainText('Ankomst & vielse');
+    await expect(first).toContainText('Velkomst');
   });
 
-  test('ubekræftede tidspunkter er markeret som vejledende', async ({
-    page,
-  }) => {
-    const items = page.locator('#program ol > li');
-
-    // Kun det første punkt er bekræftet i wedding.ts.
-    await expect(items.first()).not.toContainText('Vejledende tidspunkt');
-    await expect(page.getByText('Vejledende tidspunkt')).toHaveCount(3);
+  test('alle tidspunkter er bekræftede', async ({ page }) => {
+    await expect(page.getByText('Vejledende tidspunkt')).toHaveCount(0);
   });
 
   test('teksten har plads nok på små skærme', async ({ page }, testInfo) => {

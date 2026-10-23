@@ -78,7 +78,8 @@ export const nav: { href: string; label: Text }[] = [
 ];
 
 export type ProgramItem = {
-  time: string;
+  /** Udelad for punkter uden fast tidspunkt. */
+  time?: string;
   title: Text;
   description: Text;
   /** Sæt til true når tidspunktet er endeligt bekræftet. */
@@ -88,39 +89,47 @@ export type ProgramItem = {
 export const program: ProgramItem[] = [
   {
     time: '16:00',
-    title: { da: 'Ankomst & vielse', en: 'Arrival & ceremony' },
+    title: { da: 'Velkomst', en: 'Welcome' },
     description: {
-      da: 'Dørene åbner, og vi beder jer være på plads i god tid, så vi kan begynde til tiden.',
-      en: 'The doors open — please be seated in good time so we can begin on schedule.',
+      da: 'Gæsterne ankommer. Der er musik og dans.',
+      en: 'Guests arrive. There will be music and dancing.',
     },
     confirmed: true,
   },
   {
     time: '17:00',
-    title: { da: 'Reception', en: 'Reception' },
+    title: { da: 'Brudeparrets entré', en: 'The couple\u2019s entrance' },
     description: {
-      da: 'Velkomstdrinks, lykønskninger og de første billeder.',
-      en: 'Welcome drinks, congratulations and the first photos.',
+      da: 'Vi ankommer og glæder os til at fejre med jer.',
+      en: 'We arrive and look forward to celebrating with you.',
     },
-    confirmed: false,
+    confirmed: true,
   },
   {
     time: '18:30',
     title: { da: 'Middag', en: 'Dinner' },
     description: {
-      da: 'Vi sætter os til bords og spiser sammen.',
-      en: 'We sit down and share a meal together.',
+      da: 'Der serveres aftensmad.',
+      en: 'Dinner is served.',
     },
-    confirmed: false,
+    confirmed: true,
   },
   {
-    time: '21:00',
-    title: { da: 'Fest & dans', en: 'Party & dancing' },
+    time: '20:00',
+    title: { da: 'Bryllupskage', en: 'Wedding cake' },
     description: {
-      da: 'Kagen skæres, musikken skrues op, og festen fortsætter.',
-      en: 'The cake is cut, the music turned up, and the party goes on.',
+      da: 'Vi skærer kagen, efterfulgt af mere musik og dans.',
+      en: 'We cut the cake, followed by more music and dancing.',
     },
-    confirmed: false,
+    confirmed: true,
+  },
+  {
+    title: { da: 'Fest', en: 'Party' },
+    description: {
+      da: 'Festen fortsætter resten af aftenen.',
+      en: 'The party continues for the rest of the evening.',
+    },
+    confirmed: true,
   },
 ];
 
