@@ -73,7 +73,7 @@ export const maps = {
 export const nav: { href: string; label: Text }[] = [
   { href: '#program', label: { da: 'Program', en: 'Programme' } },
   { href: '#sted', label: { da: 'Sted', en: 'Venue' } },
-  { href: '#galleri', label: { da: 'Galleri', en: 'Gallery' } },
+  { href: '#billeder', label: { da: 'Del billeder', en: 'Share photos' } },
   { href: '#faq', label: { da: 'Spørgsmål', en: 'FAQ' } },
   { href: '#gaestebog', label: { da: 'Gæstebog', en: 'Guestbook' } },
 ];
@@ -171,8 +171,8 @@ export const faq: FaqItem[] = [
   {
     question: { da: 'Må jeg tage billeder?', en: 'May I take photos?' },
     answer: {
-      da: 'Meget gerne — men lad venligst telefonen blive i lommen under selve vielsen, så vores fotograf kan få de bedste billeder.',
-      en: 'Absolutely — but please keep your phone in your pocket during the ceremony itself, so our photographer can get the best shots.',
+      da: 'Meget gerne — men lad venligst telefonen blive i lommen under selve vielsen, så vores fotograf kan få de bedste billeder. Resten af dagen må I meget gerne dele jeres billeder med os via QR-koden eller linket under \u201cDel billeder\u201d.',
+      en: 'Absolutely — but please keep your phone in your pocket during the ceremony itself, so our photographer can get the best shots. For the rest of the day, we would love for you to share your photos with us via the QR code or link under \u201cShare photos\u201d.',
     },
   },
   {
@@ -186,6 +186,25 @@ export const faq: FaqItem[] = [
     },
   },
 ];
+
+export const photoShare = {
+  eyebrow: { da: 'Øjeblikke', en: 'Moments' } satisfies Text,
+  heading: { da: 'Del billeder', en: 'Share photos' } satisfies Text,
+  intro: {
+    da: 'Tag billeder i løbet af dagen, og del dem med os. Scan QR-koden med kameraet på din telefon, eller brug linket herunder.',
+    en: 'Take photos throughout the day and share them with us. Scan the QR code with your phone camera, or use the link below.',
+  } satisfies Text,
+  url: 'https://join.once.film/f/Mu4oCyqC',
+  qrLabel: {
+    da: 'QR-kode, der åbner siden hvor du kan dele billeder',
+    en: 'QR code that opens the page where you can share photos',
+  } satisfies Text,
+  linkLabel: {
+    da: 'Del dine billeder',
+    en: 'Share your photos',
+  } satisfies Text,
+  linkHint: { da: 'Eller åbn linket:', en: 'Or open the link:' } satisfies Text,
+} as const;
 
 export const guestbook = {
   heading: { da: 'Gæstebog', en: 'Guestbook' } satisfies Text,

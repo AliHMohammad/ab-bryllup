@@ -75,10 +75,14 @@ test.describe('sprogvælger', () => {
   test('oversætter attributter og nedtællingen', async ({ page }) => {
     await option(page, 'English').click();
 
-    await expect(page.locator('#galleri ul img').first()).toHaveAttribute(
-      'alt',
-      'Ali and Berfin holding hands after the engagement',
+    await expect(page.locator('#billeder [data-qr]')).toHaveAttribute(
+      'aria-label',
+      'QR code that opens the page where you can share photos',
     );
+    await expect(page.locator('#billeder h2')).toHaveText('Share photos');
+    await expect(
+      page.getByRole('link', { name: 'Share your photos' }),
+    ).toBeVisible();
     await expect(page.locator('#sted iframe')).toHaveAttribute(
       'title',
       /^Map showing Nisa Event Center/,
@@ -129,7 +133,7 @@ test.describe('sprogvælger', () => {
     await expect(page.locator('[data-menu-link]')).toHaveText([
       'Programme',
       'Venue',
-      'Gallery',
+      'Share photos',
       'FAQ',
       'Guestbook',
     ]);

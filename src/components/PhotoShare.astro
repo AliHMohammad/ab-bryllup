@@ -1,0 +1,67 @@
+---
+import QRCode from 'qrcode';
+import { photoShare } from '../content/wedding';
+import { t, tAttr } from '../i18n';
+
+// Genereres ved build fra URL'en, så koden altid matcher linket.
+// Sort på hvidt med stille zone giver den mest pålidelige scanning.
+const qrSvg = await QRCode.toString(photoShare.url, {
+  type: 'svg',
+  margin: 2,
+  errorCorrectionLevel: 'M',
+  color: { dark: '#000000', light: '#ffffff' },
+});
+---
+
+<section id="billeder" class="section">
+  <div class="shell">
+    <header class="reveal max-w-xl">
+      <p class="eyebrow" {...t(photoShare.eyebrow)}>
+        {photoShare.eyebrow.da}
+      </p>
+      <h2 class="section-title" {...t(photoShare.heading)}>
+        {photoShare.heading.da}
+      </h2>
+      <hr class="rule" />
+      <p class="mt-5 text-ink-soft" {...t(photoShare.intro)}>
+        {photoShare.intro.da}
+      </p>
+    </header>
+
+    <div class="reveal mt-12 flex flex-col items-center gap-8 md:mt-16 md:flex-row md:items-center md:gap-14">
+      <div class="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-sand">
+        <div
+          role="img"
+          {...tAttr('aria-label', photoShare.qrLabel)}
+          data-qr
+          class="block w-56 sm:w-64 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+          set:html={qrSvg}
+        />
+      </div>
+
+      <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
+        <a
+          class="btn btn-primary"
+          href={photoShare.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-photo-share-link
+          {...t(photoShare.linkLabel)}
+        >
+          {photoShare.linkLabel.da}
+        </a>
+        <p class="text-sm text-ink-soft">
+          <span {...t(photoShare.linkHint)}>{photoShare.linkHint.da}</span>{' '}
+          <a
+            class="break-all text-accent underline underline-offset-4"
+            href={photoShare.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {photoShare.url.replace(/^https:\/\//, '')}
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -36,7 +36,7 @@ test.describe('forside', () => {
       'top',
       'program',
       'sted',
-      'galleri',
+      'billeder',
       'faq',
       'gaestebog',
     ]) {
@@ -281,7 +281,7 @@ test.describe('mobilmenu', () => {
     await expect(links).toHaveText([
       'Program',
       'Sted',
-      'Galleri',
+      'Del billeder',
       'Spørgsmål',
       'Gæstebog',
     ]);
