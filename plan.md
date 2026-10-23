@@ -25,7 +25,7 @@ backend (the guestbook). Countdown targets **12. december 2026, kl. 16:00** at
 
 3. Define design tokens in `src/styles/global.css` — restrained palette
    (off-white / warm sand / deep ink / one accent), a serif display font paired with a clean
-   sans, fluid type scale, generous whitespace. Mobile-first breakpoints that only scale *up*.
+   sans, fluid type scale, generous whitespace. Mobile-first breakpoints that only scale _up_.
 4. Build the shell: `BaseLayout.astro`, sticky nav collapsing to a hamburger sheet on mobile,
    smooth anchor scrolling, and a minimal footer.
 5. Build the hero: "Ali & Berfin", "12. december 2026 · kl. 16:00",
@@ -94,7 +94,7 @@ All to be created:
    day count to 12.12.2026 16:00 CET from a non-Danish timezone.
 5. Map: the OSM embed visibly centres on Industrivangen 26 in Ishøj; both map deep links open
    the correct destination on iOS and Android.
-6. Guestbook: post a message → row appears in the Sheet; it does *not* render on the site until
+6. Guestbook: post a message → row appears in the Sheet; it does _not_ render on the site until
    `approved` is ticked. Honeypot-filled submission is silently rejected. Empty name shows an
    inline Danish error.
 7. `curl -I https://aliogberfin.dk` returns 200 over HTTPS; `/robots.txt` shows `Disallow: /`;
