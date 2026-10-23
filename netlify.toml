@@ -23,7 +23,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
-    # Siden er ulistet — bed søgemaskiner om at holde sig væk, også på header-niveau.
+    # Siden er ulistet - bed søgemaskiner om at holde sig væk, også på header-niveau.
     X-Robots-Tag = "noindex, nofollow"
 
 # Hashede build-assets kan caches aggressivt.

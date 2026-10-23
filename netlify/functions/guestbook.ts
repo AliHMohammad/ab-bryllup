@@ -3,7 +3,7 @@ import { getStore } from '@netlify/blobs';
 
 /**
  * Proxy mellem siden og Google Apps Script.
- * URL og hemmelighed ligger kun her på serveren — aldrig i browseren.
+ * URL og hemmelighed ligger kun her på serveren - aldrig i browseren.
  */
 
 const MAX_NAME = 80;
@@ -23,7 +23,7 @@ const json = (body: unknown, statusCode: number) =>
 
 /**
  * Tæller indsendelser pr. IP i Netlify Blobs.
- * Blobs deles på tværs af funktionsinstanser — en tæller i hukommelsen ville
+ * Blobs deles på tværs af funktionsinstanser - en tæller i hukommelsen ville
  * blive nulstillet ved hver kold start og derfor reelt ikke begrænse noget.
  */
 const isRateLimited = async (ip: string) => {
@@ -42,7 +42,7 @@ const isRateLimited = async (ip: string) => {
     await store.setJSON(key, recent);
     return recent.length > RATE_LIMIT_MAX;
   } catch (error) {
-    // Blobs utilgængelig — bloker ikke rigtige gæster på grund af det.
+    // Blobs utilgængelig - bloker ikke rigtige gæster på grund af det.
     console.warn('Kunne ikke tjekke hastighedsgrænsen:', error);
     return false;
   }

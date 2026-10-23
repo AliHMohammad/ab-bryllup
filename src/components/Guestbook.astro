@@ -8,8 +8,9 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 ---
 
 <section id="gaestebog" class="section relative max-md:pb-0">
-  <div class="shell grid md:grid-cols-2 md:gap-14">
-    <div class="md:col-start-2">
+  {/* Fra md fylder indholdet højre halvdel og centreres i den. */}
+  <div class="shell md:mr-0 md:ml-auto md:w-1/2 md:max-w-none">
+    <div class="mx-auto md:max-w-lg">
       <header class="reveal max-w-xl">
         <p class="eyebrow" {...t(eyebrow)}>
           {eyebrow.da}
@@ -123,7 +124,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
     På mobil står det nederst.
   */}
   <div class="mt-12 md:absolute md:inset-y-0 md:left-0 md:mt-0 md:w-1/2">
-    <div class="md:sticky md:top-0 md:h-svh md:max-h-full">
+    <div class="md:sticky md:top-20 md:h-[calc(100svh-5rem)] md:max-h-full">
       <Image
         src={signatureImage}
         {...tAttr('alt', guestbook.photoAlt)}
@@ -131,7 +132,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
         widths={[640, 1080, 1600, 2400]}
         quality={90}
         sizes="(min-width: 768px) 50vw, 100vw"
-        class="aspect-[4/5] w-full object-cover grayscale md:aspect-auto md:h-full"
+        class="aspect-[4/5] w-full object-cover object-[50%_15%] grayscale md:aspect-auto md:h-full"
       />
     </div>
   </div>
@@ -206,7 +207,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 
     entries.forEach((entry) => {
       const node = template.content.cloneNode(true) as DocumentFragment;
-      // textContent (ikke innerHTML) — gæsteindhold indsættes aldrig som HTML.
+      // textContent (ikke innerHTML) - gæsteindhold indsættes aldrig som HTML.
       node.querySelector<HTMLElement>('[data-entry-message]')!.textContent =
         entry.message;
       node.querySelector<HTMLElement>('[data-entry-name]')!.textContent =
@@ -228,7 +229,7 @@ const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
       const data = await res.json();
       renderEntries(Array.isArray(data.entries) ? data.entries : []);
     } catch {
-      // Gæstebogen er ikke kritisk — fejler den, viser vi bare tom-tilstanden.
+      // Gæstebogen er ikke kritisk - fejler den, viser vi bare tom-tilstanden.
       renderEntries([]);
     }
   };

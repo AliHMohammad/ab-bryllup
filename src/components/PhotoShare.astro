@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import QRCode from 'qrcode';
-import proposalImage from '../assets/proposal.jpg';
+import smileImage from '../assets/vielse-smile.jpg';
 import { photoShare } from '../content/wedding';
 import { t, tAttr } from '../i18n';
 
@@ -16,8 +16,9 @@ const qrSvg = await QRCode.toString(photoShare.url, {
 ---
 
 <section id="billeder" class="section relative bg-surface max-md:pb-0">
-  <div class="shell grid md:grid-cols-2 md:gap-14">
-    <div>
+  {/* Fra md fylder indholdet venstre halvdel og centreres i den. */}
+  <div class="shell md:mx-0 md:w-1/2 md:max-w-none">
+    <div class="mx-auto md:max-w-md">
       <header class="reveal max-w-xl">
         <p class="eyebrow" {...t(photoShare.eyebrow)}>
           {photoShare.eyebrow.da}
@@ -53,17 +54,6 @@ const qrSvg = await QRCode.toString(photoShare.url, {
           >
             {photoShare.linkLabel.da}
           </a>
-          <p class="text-sm text-ink-soft">
-            <span {...t(photoShare.linkHint)}>{photoShare.linkHint.da}</span>{' '}
-            <a
-              class="break-all text-accent underline underline-offset-4"
-              href={photoShare.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {photoShare.url.replace(/^https:\/\//, '')}
-            </a>
-          </p>
         </div>
       </div>
     </div>
@@ -72,13 +62,13 @@ const qrSvg = await QRCode.toString(photoShare.url, {
   {/* Billedet fylder højre halvdel helt ud til kanten; på mobil står det nederst. */}
   <div class="mt-12 md:absolute md:inset-y-0 md:right-0 md:mt-0 md:w-1/2">
     <Image
-      src={proposalImage}
+      src={smileImage}
       {...tAttr('alt', photoShare.photoAlt)}
       alt={photoShare.photoAlt.da}
-      widths={[480, 800, 1200, 1600]}
+      widths={[640, 1080, 1600, 2400]}
       quality={90}
       sizes="(min-width: 768px) 50vw, 100vw"
-      class="aspect-[4/5] w-full object-cover grayscale md:aspect-auto md:h-full"
+      class="aspect-[4/5] w-full object-cover object-[50%_25%] grayscale md:aspect-auto md:h-full"
     />
   </div>
 </section>

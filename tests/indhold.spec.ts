@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test';
  */
 
 test.beforeEach(async ({ page }) => {
-  // Gæstebogen har sin egen testfil — her holder vi den ude af vejen,
+  // Gæstebogen har sin egen testfil - her holder vi den ude af vejen,
   // så indholdstestene ikke afhænger af netværket.
   await page.route('**/api/guestbook', (route) =>
     route.fulfill({ json: { entries: [] } }),
@@ -39,7 +39,7 @@ test.describe('forside', () => {
 
   test('siden er på dansk', async ({ page }) => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'da');
-    await expect(page).toHaveTitle('Ali & Berfin — 12. december 2026');
+    await expect(page).toHaveTitle('Ali & Berfin - 12. december 2026');
   });
 
   test('intet vandret overløb', async ({ page }) => {
@@ -129,7 +129,7 @@ test.describe('program', () => {
   });
 });
 
-test.describe('sted & transport', () => {
+test.describe('lokation', () => {
   test('viser navn og fuld adresse', async ({ page }) => {
     const section = page.locator('#sted');
     await expect(section).toContainText('Nisa Event Center');
@@ -173,12 +173,6 @@ test.describe('sted & transport', () => {
   test('kortet har en beskrivende titel', async ({ page }) => {
     const title = await page.locator('#sted iframe').getAttribute('title');
     expect(title).toContain('Nisa Event Center');
-  });
-
-  test('viser transportmuligheder', async ({ page }) => {
-    const section = page.locator('#sted');
-    await expect(section.getByText('Med tog')).toBeVisible();
-    await expect(section.getByText('I bil')).toBeVisible();
   });
 });
 

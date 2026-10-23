@@ -1,6 +1,6 @@
 /**
  * Eneste kilde til sandhed for alt indhold på siden.
- * Ret tekster, tider og links her — ikke inde i komponenterne.
+ * Ret tekster, tider og links her - ikke inde i komponenterne.
  * Tekster skrives på både dansk (da) og engelsk (en).
  */
 
@@ -9,8 +9,8 @@ import { compose, type Text } from '../i18n';
 export const site = {
   url: 'https://aliogberfin.dk',
   title: {
-    da: 'Ali & Berfin — 12. december 2026',
-    en: 'Ali & Berfin — 12 December 2026',
+    da: 'Ali & Berfin - 12. december 2026',
+    en: 'Ali & Berfin - 12 December 2026',
   } satisfies Text,
   description: {
     da: 'Vi skal giftes! Ali Haider Mohammad og Berfin Flora Turan inviterer til bryllup lørdag den 12. december 2026 i Nisa Event Center, Ishøj.',
@@ -133,26 +133,6 @@ export const program: ProgramItem[] = [
   },
 ];
 
-/** Adressen skrives ét sted, så teksterne aldrig kan komme til at pege forkert. */
-const fullAddress = `${venue.street}, ${venue.postalCode} ${venue.city}`;
-
-export const transport: { title: Text; body: Text }[] = [
-  {
-    title: { da: 'Med tog', en: 'By train' },
-    body: {
-      da: 'Tag S-toget linje A eller E til Ishøj Station. Derfra er der cirka 3 km til lokalet — tag bus eller taxa den sidste del af vejen.',
-      en: 'Take S-train line A or E to Ishøj Station. From there it is about 3 km to the venue — take a bus or taxi for the last part of the way.',
-    },
-  },
-  {
-    title: { da: 'I bil', en: 'By car' },
-    body: {
-      da: `Sæt ${fullAddress} i GPS\u2019en. Der er gratis parkering ved adressen.`,
-      en: `Enter ${fullAddress} in your GPS. There is free parking at the address.`,
-    },
-  },
-];
-
 export const photoShare = {
   eyebrow: { da: 'Øjeblikke', en: 'Moments' } satisfies Text,
   heading: { da: 'Del billeder', en: 'Share photos' } satisfies Text,
@@ -169,10 +149,9 @@ export const photoShare = {
     da: 'Del dine billeder',
     en: 'Share your photos',
   } satisfies Text,
-  linkHint: { da: 'Eller åbn linket:', en: 'Or open the link:' } satisfies Text,
   photoAlt: {
-    da: 'Ali frier til Berfin på knæ under en bue af røde roser',
-    en: 'Ali proposing to Berfin on one knee beneath an arch of red roses',
+    da: 'Ali og Berfin smiler med vielsesattesten efter vielsen',
+    en: 'Ali and Berfin smiling with their marriage certificate after the ceremony',
   } satisfies Text,
 } as const;
 

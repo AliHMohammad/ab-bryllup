@@ -9,7 +9,7 @@ import {
 
 /**
  * Kontrakt for /api/guestbook (Netlify-funktionen).
- * Kører uden browser — vi tester funktionen direkte.
+ * Kører uden browser - vi tester funktionen direkte.
  */
 
 const post = (data: unknown) => ({
@@ -206,7 +206,7 @@ test.describe('gæstebog-api', () => {
     await setMockFailure(request, 'error');
     const res = await request.get('/api/guestbook');
 
-    // Siden skal stadig kunne vises — bare uden hilsner.
+    // Siden skal stadig kunne vises - bare uden hilsner.
     expect(res.status()).toBe(200);
     expect(await res.json()).toEqual({ entries: [] });
   });
