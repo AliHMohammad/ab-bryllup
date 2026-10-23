@@ -21,7 +21,6 @@ Consult these guides before working on related tasks:
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
 
-
 ## Test
 
 Do not run any playwright tests locally, as there is a CI-pipeline present. Instead, create a PR.
