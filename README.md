@@ -37,6 +37,12 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
+| `npm run lint`            | Check formatting with Prettier                   |
+| `npm run format`          | Format all files with Prettier                   |
+| `npm run check`           | Type check the project with `astro check`        |
+| `npm test`                | Run the Playwright test suite                    |
+
+CI (`.github/workflows/ci.yml`) runs lint, type check, build and tests on every pull request.
 
 ## 👀 Want to learn more?
 

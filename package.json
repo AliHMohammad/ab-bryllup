@@ -12,6 +12,8 @@
     "astro": "astro",
     "dev:netlify": "npm run build && netlify dev",
     "check": "astro check",
+    "lint": "prettier --check .",
+    "format": "prettier --write .",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:api": "playwright test --project=api",
