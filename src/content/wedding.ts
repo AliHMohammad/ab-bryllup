@@ -72,9 +72,9 @@ export const maps = {
 
 export const nav: { href: string; label: Text }[] = [
   { href: '#program', label: { da: 'Program', en: 'Programme' } },
-  { href: '#sted', label: { da: 'Sted', en: 'Venue' } },
   { href: '#billeder', label: { da: 'Del billeder', en: 'Share photos' } },
   { href: '#gaestebog', label: { da: 'Gæstebog', en: 'Guestbook' } },
+  { href: '#sted', label: { da: 'Sted', en: 'Venue' } },
 ];
 
 export type ProgramItem = {

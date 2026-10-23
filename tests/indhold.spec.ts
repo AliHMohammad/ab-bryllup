@@ -32,7 +32,7 @@ test.describe('forside', () => {
   });
 
   test('alle sektioner findes', async ({ page }) => {
-    for (const id of ['top', 'program', 'sted', 'billeder', 'gaestebog']) {
+    for (const id of ['top', 'program', 'billeder', 'gaestebog', 'sted']) {
       await expect(page.locator(`#${id}`)).toHaveCount(1);
     }
   });
@@ -240,12 +240,12 @@ test.describe('mobilmenu', () => {
     const links = panel.locator('[data-menu-link]');
     await expect(links).toHaveText([
       'Program',
-      'Sted',
       'Del billeder',
       'Gæstebog',
+      'Sted',
     ]);
 
-    await links.nth(1).click();
+    await links.nth(3).click();
     await expect(panel).toBeHidden();
     await expect(page).toHaveURL(/#sted$/);
   });
