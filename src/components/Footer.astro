@@ -1,5 +1,16 @@
 ---
 import { couple, weddingDate, venue } from '../content/wedding';
+import { compose, t } from '../i18n';
+
+const when = compose((lang) =>
+  lang === 'da'
+    ? `${weddingDate.weekday.da} den ${weddingDate.dateLong.da} · kl. ${weddingDate.time}`
+    : `${weddingDate.weekday.en} ${weddingDate.dateLong.en} · at ${weddingDate.time}`,
+);
+const farewell = {
+  da: 'Vi glæder os til at se jer',
+  en: 'We look forward to seeing you',
+};
 ---
 
 <footer class="border-t border-sand-deep/50 bg-sand">
@@ -10,17 +21,19 @@ import { couple, weddingDate, venue } from '../content/wedding';
 
     <hr class="rule rule-center" />
 
-    <p class="mt-6 text-ink-soft">
-      {weddingDate.weekday} den {weddingDate.dateLong} &middot; kl.{' '}
-      {weddingDate.time}
+    <p class="mt-6 text-ink-soft" {...t(when)}>
+      {when.da}
     </p>
     <p class="mt-1 text-ink-soft">{venue.name}</p>
     <p class="mt-1 text-ink-soft">
       {venue.street}, {venue.postalCode} {venue.city}
     </p>
 
-    <p class="mt-10 text-xs tracking-[0.16em] uppercase text-ink-faint">
-      Vi glæder os til at se jer
+    <p
+      class="mt-10 text-xs tracking-[0.16em] uppercase text-ink-faint"
+      {...t(farewell)}
+    >
+      {farewell.da}
     </p>
   </div>
 </footer>

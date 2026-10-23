@@ -1,5 +1,6 @@
 ---
 import { weddingDate } from '../content/wedding';
+import { t } from '../i18n';
 
 /**
  * Starttallene regnes ud ved build, så der ikke er et tomt hul før JS kører.
@@ -20,21 +21,33 @@ const initial = {
 };
 
 const units = [
-  { key: 'days', singular: 'dag', plural: 'dage', value: initial.days },
-  { key: 'hours', singular: 'time', plural: 'timer', value: initial.hours },
+  {
+    key: 'days',
+    singular: { da: 'dag', en: 'day' },
+    plural: { da: 'dage', en: 'days' },
+    value: initial.days,
+  },
+  {
+    key: 'hours',
+    singular: { da: 'time', en: 'hour' },
+    plural: { da: 'timer', en: 'hours' },
+    value: initial.hours,
+  },
   {
     key: 'minutes',
-    singular: 'minut',
-    plural: 'minutter',
+    singular: { da: 'minut', en: 'minute' },
+    plural: { da: 'minutter', en: 'minutes' },
     value: initial.minutes,
   },
   {
     key: 'seconds',
-    singular: 'sekund',
-    plural: 'sekunder',
+    singular: { da: 'sekund', en: 'second' },
+    plural: { da: 'sekunder', en: 'seconds' },
     value: initial.seconds,
   },
 ];
+
+const todayText = { da: 'I dag er dagen!', en: 'Today is the day!' };
 ---
 
 <div data-countdown data-target={weddingDate.iso}>
@@ -50,8 +63,10 @@ const units = [
       <li
         class="rounded-xl border border-sand-deep/50 bg-surface/60 px-1 py-4 backdrop-blur-sm sm:px-3"
         data-unit={unit.key}
-        data-singular={unit.singular}
-        data-plural={unit.plural}
+        data-singular={unit.singular.da}
+        data-plural={unit.plural.da}
+        data-singular-en={unit.singular.en}
+        data-plural-en={unit.plural.en}
       >
         <span
           class="font-display block text-3xl tabular-nums sm:text-4xl"
@@ -63,18 +78,37 @@ const units = [
           class="mt-1 block text-[0.625rem] tracking-[0.16em] uppercase text-ink-faint sm:text-xs"
           data-label
         >
-          {unit.value === 1 ? unit.singular : unit.plural}
+          {unit.value === 1 ? unit.singular.da : unit.plural.da}
         </span>
       </li>
     ))}
   </ol>
 
-  <p class="mt-6 hidden text-lead text-accent" data-today>
-    I dag er dagen!
+  <p class="mt-6 hidden text-lead text-accent" data-today {...t(todayText)}>
+    {todayText.da}
   </p>
 </div>
 
 <script>
+  import { currentLang, LANG_EVENT } from '../i18n';
+
+  const SR_TEXT = {
+    da: {
+      today: 'I dag er dagen!',
+      days: (n: number) =>
+        n === 1
+          ? 'Der er 1 dag til brylluppet.'
+          : `Der er ${n} dage til brylluppet.`,
+    },
+    en: {
+      today: 'Today is the day!',
+      days: (n: number) =>
+        n === 1
+          ? 'There is 1 day until the wedding.'
+          : `There are ${n} days until the wedding.`,
+    },
+  };
+
   const root = document.querySelector<HTMLElement>('[data-countdown]');
   const list = root?.querySelector<HTMLElement>('[data-countdown-list]');
   const today = root?.querySelector<HTMLElement>('[data-today]');
@@ -93,11 +127,12 @@ const units = [
 
     const render = () => {
       const diff = target - Date.now();
+      const lang = currentLang();
 
       if (diff <= 0) {
         list.hidden = true;
         today?.classList.remove('hidden');
-        if (srStatus) srStatus.textContent = 'I dag er dagen!';
+        if (srStatus) srStatus.textContent = SR_TEXT[lang].today;
         return true;
       }
 
@@ -115,24 +150,27 @@ const units = [
         const labelEl = item.querySelector<HTMLElement>('[data-label]');
         if (valueEl) valueEl.textContent = String(value);
         if (labelEl) {
+          const suffix = lang === 'en' ? 'En' : '';
           labelEl.textContent =
             value === 1
-              ? (item.dataset.singular ?? '')
-              : (item.dataset.plural ?? '');
+              ? (item.dataset[`singular${suffix}`] ?? '')
+              : (item.dataset[`plural${suffix}`] ?? '');
         }
       });
 
       // Oplæs kun én gang i døgnet, så skærmlæsere ikke afbrydes hvert sekund.
       if (srStatus && values.days !== lastAnnouncedDays) {
         lastAnnouncedDays = values.days;
-        srStatus.textContent =
-          values.days === 1
-            ? 'Der er 1 dag til brylluppet.'
-            : `Der er ${values.days} dage til brylluppet.`;
+        srStatus.textContent = SR_TEXT[lang].days(values.days);
       }
 
       return false;
     };
+
+    document.addEventListener(LANG_EVENT, () => {
+      lastAnnouncedDays = -1;
+      render();
+    });
 
     if (!render()) {
       const timer = window.setInterval(() => {

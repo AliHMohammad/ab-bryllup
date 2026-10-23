@@ -8,7 +8,7 @@ backend (the guestbook). Countdown targets **12. december 2026, kl. 16:00** at
 - **Couple:** Ali Haider Mohammad & Berfin Flora Turan
 - **Date/time:** 12. december 2026, kl. 16:00 (Europe/Copenhagen)
 - **Venue:** Nisa Event Center, Industrivangen 26, 2635 Ishøj
-- **Language:** Danish only
+- **Language:** Danish, with a DA/EN toggle in the header that switches all text to English
 - **Domain:** aliogberfin.dk
 - **Privacy:** public URL, unlisted (noindex)
 

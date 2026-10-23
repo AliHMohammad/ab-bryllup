@@ -1,5 +1,7 @@
 ---
 import { couple, nav } from '../content/wedding';
+import { t, tAttr } from '../i18n';
+import LanguageToggle from './LanguageToggle.astro';
 ---
 
 <header
@@ -7,51 +9,61 @@ import { couple, nav } from '../content/wedding';
   class="fixed inset-x-0 top-0 z-40 transition-colors duration-300"
   data-nav
 >
-  <div class="shell flex h-16 items-center justify-between md:h-20">
+  <div class="shell flex h-16 items-center justify-between gap-3 md:h-20">
     <a
       href="#top"
-      class="font-display text-lg tracking-[0.2em] uppercase text-ink"
+      class="font-display whitespace-nowrap text-base tracking-[0.12em] uppercase text-ink min-[360px]:text-lg min-[360px]:tracking-[0.2em]"
     >
       {couple.one} &amp; {couple.two}
     </a>
 
-    <nav aria-label="Hovedmenu" class="hidden md:block">
-      <ul class="flex items-center gap-8">
-        {nav.map((item) => (
-          <li>
-            <a
-              href={item.href}
-              class="text-sm text-ink-soft transition-colors hover:text-accent"
-            >
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-
-    <button
-      type="button"
-      data-menu-toggle
-      aria-expanded="false"
-      aria-controls="mobil-menu"
-      class="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full md:hidden"
-    >
-      <span class="sr-only">Åbn menu</span>
-      <svg
-        width="22"
-        height="14"
-        viewBox="0 0 22 14"
-        fill="none"
-        aria-hidden="true"
+    <div class="flex items-center gap-2 md:gap-8">
+      <nav
+        {...tAttr('aria-label', { da: 'Hovedmenu', en: 'Main menu' })}
+        class="hidden md:block"
       >
-        <path
-          d="M0 1h22M0 7h22M0 13h22"
-          stroke="currentColor"
-          stroke-width="1.25"
-        ></path>
-      </svg>
-    </button>
+        <ul class="flex items-center gap-8">
+          {nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="text-sm text-ink-soft transition-colors hover:text-accent"
+                {...t(item.label)}
+              >
+                {item.label.da}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <LanguageToggle />
+
+      <button
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="mobil-menu"
+        class="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full md:hidden"
+      >
+        <span class="sr-only" {...t({ da: 'Åbn menu', en: 'Open menu' })}>
+          Åbn menu
+        </span>
+        <svg
+          width="22"
+          height="14"
+          viewBox="0 0 22 14"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M0 1h22M0 7h22M0 13h22"
+            stroke="currentColor"
+            stroke-width="1.25"
+          ></path>
+        </svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -67,7 +79,9 @@ import { couple, nav } from '../content/wedding';
       data-menu-close
       class="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full"
     >
-      <span class="sr-only">Luk menu</span>
+      <span class="sr-only" {...t({ da: 'Luk menu', en: 'Close menu' })}>
+        Luk menu
+      </span>
       <svg
         width="18"
         height="18"
@@ -83,7 +97,10 @@ import { couple, nav } from '../content/wedding';
       </svg>
     </button>
   </div>
-  <nav aria-label="Mobilmenu" class="shell pt-6">
+  <nav
+    {...tAttr('aria-label', { da: 'Mobilmenu', en: 'Mobile menu' })}
+    class="shell pt-6"
+  >
     <ul class="flex flex-col gap-2">
       {nav.map((item) => (
         <li>
@@ -91,8 +108,9 @@ import { couple, nav } from '../content/wedding';
             href={item.href}
             data-menu-link
             class="font-display block border-b border-sand py-4 text-3xl text-ink"
+            {...t(item.label)}
           >
-            {item.label}
+            {item.label.da}
           </a>
         </li>
       ))}

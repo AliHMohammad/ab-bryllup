@@ -1,0 +1,32 @@
+---
+import type { Lang } from '../i18n';
+
+/**
+ * Sprogvælger. Selve skiftet sker i scriptet nederst i BaseLayout, som også
+ * husker valget til næste besøg.
+ */
+const options: { lang: Lang; short: string; name: string }[] = [
+  { lang: 'da', short: 'DA', name: 'Dansk' },
+  { lang: 'en', short: 'EN', name: 'English' },
+];
+---
+
+<div
+  role="group"
+  aria-label="Sprog / Language"
+  class="inline-flex items-center rounded-full border border-sand-deep/70 bg-surface/70 p-0.5"
+  data-lang-toggle
+>
+  {options.map((option) => (
+    <button
+      type="button"
+      lang={option.lang}
+      data-lang-option={option.lang}
+      aria-pressed={option.lang === 'da' ? 'true' : 'false'}
+      class="inline-flex h-9 min-w-11 items-center justify-center rounded-full px-2.5 text-xs font-medium tracking-[0.16em] text-ink-soft transition-colors hover:text-accent aria-pressed:bg-ink aria-pressed:text-canvas aria-pressed:hover:text-canvas"
+    >
+      <span aria-hidden="true">{option.short}</span>
+      <span class="sr-only">{option.name}</span>
+    </button>
+  ))}
+</div>

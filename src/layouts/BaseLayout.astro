@@ -1,10 +1,11 @@
 ---
 import '../styles/global.css';
 import { site, couple, weddingDate, venue } from '../content/wedding';
+import { t, type Text } from '../i18n';
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: Text;
+  description?: Text;
 }
 
 const { title = site.title, description = site.description } = Astro.props;
@@ -17,8 +18,8 @@ const ogImage = new URL('/og.png', site.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title {...t(title)}>{title.da}</title>
+    <meta name="description" content={description.da} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#faf7f2" />
@@ -30,8 +31,8 @@ const ogImage = new URL('/og.png', site.url).href;
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={site.locale} />
     <meta property="og:site_name" content={`${couple.one} & ${couple.two}`} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={title.da} />
+    <meta property="og:description" content={description.da} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
@@ -72,10 +73,62 @@ const ogImage = new URL('/og.png', site.url).href;
       href="#indhold"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-3 focus:text-canvas"
     >
-      Spring til indhold
+      <span {...t({ da: 'Spring til indhold', en: 'Skip to content' })}>
+        Spring til indhold
+      </span>
     </a>
     <slot />
 
+    {/*
+      Sprogskift. Kører med det samme (is:inline) i stedet for som modul, så en
+      gemt engelsk visning er på plads før siden tegnes første gang.
+    */}
+    <script is:inline>
+      (() => {
+        const STORAGE_KEY = 'lang';
+        const root = document.documentElement;
+
+        const apply = (lang) => {
+          root.lang = lang;
+          const prefix = `data-${lang}`;
+          document.querySelectorAll('[data-i18n]').forEach((el) => {
+            el.getAttributeNames().forEach((name) => {
+              const value = el.getAttribute(name) ?? '';
+              if (name === prefix) el.textContent = value;
+              else if (name.startsWith(`${prefix}-`))
+                el.setAttribute(name.slice(prefix.length + 1), value);
+            });
+          });
+          document.querySelectorAll('[data-lang-option]').forEach((button) => {
+            button.setAttribute(
+              'aria-pressed',
+              String(button.dataset.langOption === lang),
+            );
+          });
+          document.dispatchEvent(
+            new CustomEvent('langchange', { detail: lang }),
+          );
+        };
+
+        let stored = null;
+        try {
+          stored = localStorage.getItem(STORAGE_KEY);
+        } catch {
+          // Privat browsing kan blokere localStorage — så bliver siden på dansk.
+        }
+        if (stored === 'en') apply('en');
+
+        document.addEventListener('click', (event) => {
+          const button = event.target.closest?.('[data-lang-option]');
+          const lang = button?.dataset.langOption;
+          if (lang !== 'da' && lang !== 'en') return;
+          try {
+            localStorage.setItem(STORAGE_KEY, lang);
+          } catch {}
+          if (lang !== root.lang) apply(lang);
+        });
+      })();
+    </script>
     <script>
       // Blid indtoning når sektioner kommer i syne.
       const prefersReduced = window.matchMedia(
