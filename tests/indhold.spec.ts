@@ -32,13 +32,7 @@ test.describe('forside', () => {
   });
 
   test('alle sektioner findes', async ({ page }) => {
-    for (const id of [
-      'top',
-      'program',
-      'sted',
-      'billeder',
-      'gaestebog',
-    ]) {
+    for (const id of ['top', 'program', 'sted', 'billeder', 'gaestebog']) {
       await expect(page.locator(`#${id}`)).toHaveCount(1);
     }
   });
