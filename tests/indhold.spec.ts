@@ -37,7 +37,6 @@ test.describe('forside', () => {
       'program',
       'sted',
       'billeder',
-      'faq',
       'gaestebog',
     ]) {
       await expect(page.locator(`#${id}`)).toHaveCount(1);
@@ -194,34 +193,6 @@ test.describe('sted & transport', () => {
   });
 });
 
-test.describe('ofte stillede spørgsmål', () => {
-  test('alle spørgsmål vises og er lukkede fra start', async ({ page }) => {
-    const items = page.locator('#faq details');
-    await expect(items).toHaveCount(4);
-
-    for (let i = 0; i < 4; i++) {
-      await expect(items.nth(i)).not.toHaveAttribute('open', '');
-    }
-  });
-
-  test('et spørgsmål kan åbnes', async ({ page }) => {
-    const first = page.locator('#faq details').first();
-    await first.locator('summary').click();
-    await expect(first).toHaveAttribute('open', '');
-    await expect(first.locator('p')).toBeVisible();
-  });
-
-  test('kun ét svar er åbent ad gangen', async ({ page }) => {
-    const items = page.locator('#faq details');
-    await items.nth(0).locator('summary').click();
-    await expect(items.nth(0)).toHaveAttribute('open', '');
-
-    await items.nth(1).locator('summary').click();
-    await expect(items.nth(1)).toHaveAttribute('open', '');
-    await expect(items.nth(0)).not.toHaveAttribute('open', '');
-  });
-});
-
 test.describe('navigation', () => {
   test('springer til den valgte sektion', async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === 'mobil', 'menuen testes separat');
@@ -282,7 +253,6 @@ test.describe('mobilmenu', () => {
       'Program',
       'Sted',
       'Del billeder',
-      'Spørgsmål',
       'Gæstebog',
     ]);
 

@@ -62,9 +62,6 @@ test.describe('sprogvælger', () => {
     );
     await expect(page.getByText('Approximate time')).toHaveCount(3);
     await expect(page.locator('#sted').getByText('By train')).toBeVisible();
-    await expect(page.locator('#faq h2')).toHaveText(
-      'Frequently asked questions',
-    );
     await expect(page.getByText('There are no messages yet.')).toBeVisible();
     await expect(page.getByLabel('Your name')).toBeVisible();
     await expect(
@@ -134,7 +131,6 @@ test.describe('sprogvælger', () => {
       'Programme',
       'Venue',
       'Share photos',
-      'FAQ',
       'Guestbook',
     ]);
   });
