@@ -1,13 +1,13 @@
 ---
-import { venue, maps, transport, weddingDate } from '../content/wedding';
+import { venue, maps, weddingDate } from '../content/wedding';
 import { compose, t, tAttr } from '../i18n';
 
 const eyebrow = { da: 'Sådan finder I os', en: 'How to find us' };
-const heading = { da: 'Sted & transport', en: 'Venue & travel' };
+const heading = { da: 'Lokation', en: 'Location' };
 const when = compose((lang) =>
   lang === 'da'
-    ? `${weddingDate.weekday.da} den ${weddingDate.dateLong.da} — vi begynder klokken ${weddingDate.time}.`
-    : `${weddingDate.weekday.en} ${weddingDate.dateLong.en} — we begin at ${weddingDate.time}.`,
+    ? `${weddingDate.weekday.da} den ${weddingDate.dateLong.da} - vi begynder klokken ${weddingDate.time}.`
+    : `${weddingDate.weekday.en} ${weddingDate.dateLong.en} - we begin at ${weddingDate.time}.`,
 );
 const mapTitle = compose(
   (lang) =>
@@ -22,24 +22,23 @@ const mapData = { da: 'Kortdata fra', en: 'Map data from' };
 
 <section id="sted" class="section bg-surface">
   <div class="shell">
-    <header class="reveal max-w-xl">
-      <p class="eyebrow" {...t(eyebrow)}>
-        {eyebrow.da}
-      </p>
-      <h2 class="section-title" {...t(heading)}>
-        {heading.da}
-      </h2>
-      <hr class="rule" />
-    </header>
-
-    <div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-2 md:gap-14">
+    <div class="grid gap-10 md:grid-cols-2 md:items-center md:gap-14">
       <div class="reveal">
+        <header class="mb-10">
+          <p class="eyebrow" {...t(eyebrow)}>
+            {eyebrow.da}
+          </p>
+          <h2 class="section-title" {...t(heading)}>
+            {heading.da}
+          </h2>
+          <hr class="rule" />
+        </header>
+
         <h3 class="text-2xl">{venue.name}</h3>
         <address class="mt-3 text-lead not-italic text-ink-soft">
           {venue.street}
           <br />
-          {venue.postalCode}
-          {venue.city}
+          {`${venue.postalCode} ${venue.city}`}
         </address>
 
         <p class="mt-4 text-ink-soft" {...t(when)}>
@@ -64,25 +63,9 @@ const mapData = { da: 'Kortdata fra', en: 'Map data from' };
             Apple Maps
           </a>
         </div>
-
-        <dl class="mt-10 space-y-6">
-          {transport.map((item) => (
-            <div>
-              <dt
-                class="text-sm tracking-[0.16em] uppercase text-ink-faint"
-                {...t(item.title)}
-              >
-                {item.title.da}
-              </dt>
-              <dd class="mt-1.5 text-ink-soft" {...t(item.body)}>
-                {item.body.da}
-              </dd>
-            </div>
-          ))}
-        </dl>
       </div>
 
-      <div class="reveal">
+      <div class="reveal relative">
         <div
           class="relative overflow-hidden rounded-2xl border border-sand-deep/60 bg-sand"
           data-map
@@ -112,7 +95,8 @@ const mapData = { da: 'Kortdata fra', en: 'Map data from' };
             </span>
           </button>
         </div>
-        <p class="mt-3 text-xs text-ink-faint">
+        {/* På desktop tæller linjen ikke med i højden, så teksten centreres på selve kortet. */}
+        <p class="mt-3 text-xs text-ink-faint md:absolute md:top-full md:left-0">
           <span {...t(mapData)}>{mapData.da}</span>{' '}
           <a
             class="underline underline-offset-2 hover:text-accent"

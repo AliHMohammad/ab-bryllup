@@ -29,7 +29,7 @@ test.describe('del billeder', () => {
 
   test('linket peger på upload-siden og åbner i ny fane', async ({ page }) => {
     const links = page.locator(`#billeder a[href="${SHARE_URL}"]`);
-    await expect(links).toHaveCount(2);
+    await expect(links).toHaveCount(1);
 
     for (const link of await links.all()) {
       await expect(link).toHaveAttribute('target', '_blank');
@@ -39,14 +39,6 @@ test.describe('del billeder', () => {
     await expect(
       page.getByRole('link', { name: 'Del dine billeder' }),
     ).toBeVisible();
-  });
-
-  test('viser adressen som tekst, hvis QR-koden ikke kan bruges', async ({
-    page,
-  }) => {
-    await expect(page.locator('#billeder')).toContainText(
-      'join.once.film/f/Mu4oCyqC',
-    );
   });
 });
 

@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * Testene kører mod Netlify Dev, så både den statiske side og
  * gæstebogsfunktionen (/api/guestbook) testes som i produktion.
- * Apps Script erstattes af en lokal mock — se tests/support/mock-apps-script.mjs.
+ * Apps Script erstattes af en lokal mock - se tests/support/mock-apps-script.mjs.
  */
 
 export const MOCK_PORT = 9999;

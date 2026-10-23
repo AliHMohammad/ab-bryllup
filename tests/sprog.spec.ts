@@ -43,7 +43,7 @@ test.describe('sprogvælger', () => {
       'aria-pressed',
       'true',
     );
-    await expect(page).toHaveTitle('Ali & Berfin — 12 December 2026');
+    await expect(page).toHaveTitle('Ali & Berfin - 12 December 2026');
 
     const hero = page.locator('#top');
     await expect(hero.getByText('Saturday 12 December 2026')).toBeVisible();
@@ -54,13 +54,13 @@ test.describe('sprogvælger', () => {
       page.getByRole('link', { name: 'See the programme' }),
     ).toBeVisible();
 
-    await expect(page.locator('#program h2')).toHaveText(
-      'Programme of the day',
-    );
+    await expect(page.locator('#program h2')).toHaveText('Programme');
     await expect(page.locator('#program ol > li h3').first()).toHaveText(
       'Welcome',
     );
-    await expect(page.locator('#sted').getByText('By train')).toBeVisible();
+    await expect(
+      page.locator('#sted').getByText(/we begin at 16:00/),
+    ).toBeVisible();
     await expect(page.getByText('There are no messages yet.')).toBeVisible();
     await expect(page.getByLabel('Your name')).toBeVisible();
     await expect(
@@ -96,15 +96,13 @@ test.describe('sprogvælger', () => {
 
   test('kan skiftes tilbage til dansk', async ({ page }) => {
     await option(page, 'English').click();
-    await expect(page.locator('#program h2')).toHaveText(
-      'Programme of the day',
-    );
+    await expect(page.locator('#program h2')).toHaveText('Programme');
 
     await option(page, 'Dansk').click();
     await expect(page.locator('html')).toHaveAttribute('lang', 'da');
-    await expect(page.locator('#program h2')).toHaveText('Dagens program');
+    await expect(page.locator('#program h2')).toHaveText('Program');
     await expect(page.getByText('Der er ingen hilsner endnu.')).toBeVisible();
-    await expect(page).toHaveTitle('Ali & Berfin — 12. december 2026');
+    await expect(page).toHaveTitle('Ali & Berfin - 12. december 2026');
   });
 
   test('husker valget ved næste besøg', async ({ page }) => {
@@ -112,9 +110,7 @@ test.describe('sprogvælger', () => {
     await page.reload();
 
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-    await expect(page.locator('#program h2')).toHaveText(
-      'Programme of the day',
-    );
+    await expect(page.locator('#program h2')).toHaveText('Programme');
     await expect(option(page, 'English')).toHaveAttribute(
       'aria-pressed',
       'true',
@@ -128,9 +124,9 @@ test.describe('sprogvælger', () => {
     await page.locator('[data-menu-toggle]').click();
     await expect(page.locator('[data-menu-link]')).toHaveText([
       'Programme',
-      'Venue',
       'Share photos',
       'Guestbook',
+      'Venue',
     ]);
   });
 

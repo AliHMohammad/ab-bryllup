@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import QRCode from 'qrcode';
+import smileImage from '../assets/vielse-smile.jpg';
 import { photoShare } from '../content/wedding';
 import { t, tAttr } from '../i18n';
 
@@ -13,55 +15,60 @@ const qrSvg = await QRCode.toString(photoShare.url, {
 });
 ---
 
-<section id="billeder" class="section">
-  <div class="shell">
-    <header class="reveal max-w-xl">
-      <p class="eyebrow" {...t(photoShare.eyebrow)}>
-        {photoShare.eyebrow.da}
-      </p>
-      <h2 class="section-title" {...t(photoShare.heading)}>
-        {photoShare.heading.da}
-      </h2>
-      <hr class="rule" />
-      <p class="mt-5 text-ink-soft" {...t(photoShare.intro)}>
-        {photoShare.intro.da}
-      </p>
-    </header>
+<section id="billeder" class="section relative bg-surface max-md:pb-0">
+  {/* Fra md fylder indholdet venstre halvdel og centreres i den. */}
+  <div class="shell md:mx-0 md:w-1/2 md:max-w-none">
+    <div class="mx-auto md:max-w-md">
+      <header class="reveal max-w-xl">
+        <p class="eyebrow" {...t(photoShare.eyebrow)}>
+          {photoShare.eyebrow.da}
+        </p>
+        <h2 class="section-title" {...t(photoShare.heading)}>
+          {photoShare.heading.da}
+        </h2>
+        <hr class="rule" />
+        <p class="mt-5 text-ink-soft" {...t(photoShare.intro)}>
+          {photoShare.intro.da}
+        </p>
+      </header>
 
-    <div class="reveal mt-12 flex flex-col items-center gap-8 md:mt-16 md:flex-row md:items-center md:gap-14">
-      <div class="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-sand">
-        <div
-          role="img"
-          {...tAttr('aria-label', photoShare.qrLabel)}
-          data-qr
-          class="block w-56 sm:w-64 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
-          set:html={qrSvg}
-        />
-      </div>
+      <div class="reveal mt-12 flex flex-col items-center gap-8 md:items-start">
+        <div class="rounded-2xl bg-surface p-4 shadow-sm ring-1 ring-sand">
+          <div
+            role="img"
+            {...tAttr('aria-label', photoShare.qrLabel)}
+            data-qr
+            class="block w-56 sm:w-64 [&_svg]:block [&_svg]:h-auto [&_svg]:w-full"
+            set:html={qrSvg}
+          />
+        </div>
 
-      <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
-        <a
-          class="btn btn-primary"
-          href={photoShare.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-photo-share-link
-          {...t(photoShare.linkLabel)}
-        >
-          {photoShare.linkLabel.da}
-        </a>
-        <p class="text-sm text-ink-soft">
-          <span {...t(photoShare.linkHint)}>{photoShare.linkHint.da}</span>{' '}
+        <div class="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
           <a
-            class="break-all text-accent underline underline-offset-4"
+            class="btn btn-primary"
             href={photoShare.url}
             target="_blank"
             rel="noopener noreferrer"
+            data-photo-share-link
+            {...t(photoShare.linkLabel)}
           >
-            {photoShare.url.replace(/^https:\/\//, '')}
+            {photoShare.linkLabel.da}
           </a>
-        </p>
+        </div>
       </div>
     </div>
+  </div>
+
+  {/* Billedet fylder højre halvdel helt ud til kanten; på mobil står det nederst. */}
+  <div class="mt-12 md:absolute md:inset-y-0 md:right-0 md:mt-0 md:w-1/2">
+    <Image
+      src={smileImage}
+      {...tAttr('alt', photoShare.photoAlt)}
+      alt={photoShare.photoAlt.da}
+      widths={[640, 1080, 1600, 2400]}
+      quality={90}
+      sizes="(min-width: 768px) 50vw, 100vw"
+      class="aspect-[4/5] w-full object-cover object-[50%_25%] grayscale md:aspect-auto md:h-full"
+    />
   </div>
 </section>

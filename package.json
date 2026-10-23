@@ -29,7 +29,7 @@
   "allowScripts": {
     "esbuild": true
   },
-  "description": "Bryllupsinvitation for Ali & Berfin — 12. december 2026",
+  "description": "Bryllupsinvitation for Ali & Berfin - 12. december 2026",
   "private": "true",
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

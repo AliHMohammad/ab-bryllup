@@ -7,7 +7,7 @@ import {
 } from './support/helpers';
 
 /**
- * Gæstebogen i browseren — formular, validering, moderation og sikkerhed.
+ * Gæstebogen i browseren - formular, validering, moderation og sikkerhed.
  */
 
 const goto = async (page: import('@playwright/test').Page) => {
@@ -71,7 +71,7 @@ test.describe('visning af hilsner', () => {
     );
     await goto(page);
 
-    // Ingen fejl i brugerens ansigt — bare den tomme tilstand.
+    // Ingen fejl i brugerens ansigt - bare den tomme tilstand.
     await expect(page.locator('#gaestebog')).toBeVisible();
     await expect(page.getByText('Der er ingen hilsner endnu.')).toBeVisible();
   });

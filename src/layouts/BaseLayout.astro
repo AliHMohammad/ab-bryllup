@@ -51,7 +51,7 @@ const ogImage = new URL('/og.png', site.url).href;
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Event',
-        name: `${couple.oneFull} & ${couple.twoFull} — Bryllup`,
+        name: `${couple.oneFull} & ${couple.twoFull} - Bryllup`,
         startDate: weddingDate.iso,
         eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
         location: {
@@ -114,7 +114,7 @@ const ogImage = new URL('/og.png', site.url).href;
         try {
           stored = localStorage.getItem(STORAGE_KEY);
         } catch {
-          // Privat browsing kan blokere localStorage — så bliver siden på dansk.
+          // Privat browsing kan blokere localStorage - så bliver siden på dansk.
         }
         if (stored === 'en') apply('en');
 

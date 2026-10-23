@@ -5,7 +5,7 @@ dist/
 # Afhængigheder
 node_modules/
 
-# Miljøvariabler — .env.example er med i repoet med vilje
+# Miljøvariabler - .env.example er med i repoet med vilje
 .env
 .env.*
 !.env.example

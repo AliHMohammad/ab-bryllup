@@ -1,11 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/vielse-close.jpg';
 import { couple, weddingDate, weddingDay, venue } from '../content/wedding';
 import { compose, t } from '../i18n';
 import Countdown from './Countdown.astro';
 
 const tagline = {
-  da: 'Vi skal giftes — og vi vil gerne have jer med.',
-  en: 'We are getting married — and we would love for you to be there.',
+  da: 'Vi skal giftes - og vi vil gerne have jer med.',
+  en: 'We are getting married - and we would love for you to be there.',
 };
 const details = compose(
   (lang) =>
@@ -15,9 +17,22 @@ const cta = { da: 'Se programmet', en: 'See the programme' };
 ---
 
 <section id="top" class="relative flex min-h-svh flex-col justify-center">
-  <!-- Erstat med et rigtigt billede: læg filen i src/assets/ og brug <Image />. -->
-  <div class="absolute inset-0 -z-10 bg-sand" aria-hidden="true">
-    <div class="h-full w-full bg-[radial-gradient(ellipse_at_50%_30%,#faf7f2_0%,#ece3d7_55%,#ddd0be_100%)]"></div>
+  <div
+    class="absolute inset-0 -z-10 overflow-hidden bg-sand"
+    aria-hidden="true"
+  >
+    <Image
+      src={heroImage}
+      alt=""
+      widths={[640, 1080, 1600, 2400, 3024]}
+      quality={90}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="h-full w-full scale-[1.02] object-cover grayscale blur-[1.5px]"
+    />
+    <!-- Lys slør over billedet, så teksten stadig kan læses -->
+    <div class="absolute inset-0 bg-[#faf7f2]/70"></div>
   </div>
 
   <div class="shell py-28 text-center">
