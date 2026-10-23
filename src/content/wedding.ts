@@ -170,6 +170,10 @@ export const photoShare = {
     en: 'Share your photos',
   } satisfies Text,
   linkHint: { da: 'Eller åbn linket:', en: 'Or open the link:' } satisfies Text,
+  photoAlt: {
+    da: 'Ali frier til Berfin på knæ under en bue af røde roser',
+    en: 'Ali proposing to Berfin on one knee beneath an arch of red roses',
+  } satisfies Text,
 } as const;
 
 export const guestbook = {
@@ -208,6 +212,10 @@ export const guestbook = {
   } satisfies Text,
   /** Sprog til datoen under hver hilsen. */
   dateLocale: { da: 'da-DK', en: 'en-GB' } satisfies Text,
+  photoAlt: {
+    da: 'Ali og Berfin smiler, mens de skriver under ved vielsen',
+    en: 'Ali and Berfin smiling as they sign at their civil ceremony',
+  } satisfies Text,
   maxNameLength: 80,
   maxMessageLength: 800,
 } as const;

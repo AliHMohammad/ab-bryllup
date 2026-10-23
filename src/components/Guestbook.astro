@@ -1,115 +1,138 @@
 ---
+import { Image } from 'astro:assets';
+import signatureImage from '../assets/vielse-signature.jpg';
 import { guestbook } from '../content/wedding';
-import { t } from '../i18n';
+import { t, tAttr } from '../i18n';
 
 const eyebrow = { da: 'Skriv til os', en: 'Write to us' };
 ---
 
-<section id="gaestebog" class="section">
-  <div class="shell">
-    <header class="reveal max-w-xl">
-      <p class="eyebrow" {...t(eyebrow)}>
-        {eyebrow.da}
-      </p>
-      <h2 class="section-title" {...t(guestbook.heading)}>
-        {guestbook.heading.da}
-      </h2>
-      <hr class="rule" />
-      <p class="mt-5 text-ink-soft" {...t(guestbook.intro)}>
-        {guestbook.intro.da}
-      </p>
-    </header>
+<section id="gaestebog" class="section relative max-md:pb-0">
+  <div class="shell grid md:grid-cols-2 md:gap-14">
+    <div class="md:col-start-2">
+      <header class="reveal max-w-xl">
+        <p class="eyebrow" {...t(eyebrow)}>
+          {eyebrow.da}
+        </p>
+        <h2 class="section-title" {...t(guestbook.heading)}>
+          {guestbook.heading.da}
+        </h2>
+        <hr class="rule" />
+        <p class="mt-5 text-ink-soft" {...t(guestbook.intro)}>
+          {guestbook.intro.da}
+        </p>
+      </header>
 
-    <div class="mt-12 grid gap-12 md:mt-16 md:grid-cols-2 md:gap-14">
-      <form
-        class="reveal rounded-2xl border border-sand-deep/60 bg-canvas p-6 sm:p-8"
-        data-guestbook-form
-        novalidate
-      >
-        <div>
-          <label
-            class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
-            for="gb-name"
-            {...t(guestbook.nameLabel)}
-          >
-            {guestbook.nameLabel.da}
-          </label>
-          <input
-            id="gb-name"
-            name="name"
-            type="text"
-            required
-            maxlength={guestbook.maxNameLength}
-            autocomplete="name"
-            class="mt-2 w-full rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
-          />
-          <p
-            class="mt-1.5 hidden text-sm text-red-700"
-            data-error-for="name"
-          ></p>
-        </div>
-
-        <div class="mt-6">
-          <label
-            class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
-            for="gb-message"
-            {...t(guestbook.messageLabel)}
-          >
-            {guestbook.messageLabel.da}
-          </label>
-          <textarea
-            id="gb-message"
-            name="message"
-            required
-            rows="5"
-            maxlength={guestbook.maxMessageLength}
-            class="mt-2 w-full resize-y rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
-          ></textarea>
-          <p
-            class="mt-1.5 hidden text-sm text-red-700"
-            data-error-for="message"
-          ></p>
-        </div>
-
-        {/* Honeypot: skjult for mennesker, udfyldes typisk af bots. */}
-        <div class="absolute left-[-9999px]" aria-hidden="true">
-          <label for="gb-website">Efterlad dette felt tomt</label>
-          <input
-            id="gb-website"
-            name="website"
-            type="text"
-            tabindex="-1"
-            autocomplete="off"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="btn btn-primary mt-7 w-full sm:w-auto"
-          {...t(guestbook.submitLabel)}
+      <div class="mt-12 grid gap-12 md:mt-16">
+        <form
+          class="reveal rounded-2xl border border-sand-deep/60 bg-canvas p-6 sm:p-8"
+          data-guestbook-form
+          novalidate
         >
-          {guestbook.submitLabel.da}
-        </button>
+          <div>
+            <label
+              class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
+              for="gb-name"
+              {...t(guestbook.nameLabel)}
+            >
+              {guestbook.nameLabel.da}
+            </label>
+            <input
+              id="gb-name"
+              name="name"
+              type="text"
+              required
+              maxlength={guestbook.maxNameLength}
+              autocomplete="name"
+              class="mt-2 w-full rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
+            />
+            <p
+              class="mt-1.5 hidden text-sm text-red-700"
+              data-error-for="name"
+            ></p>
+          </div>
 
-        <p
-          class="mt-4 hidden text-sm"
-          data-form-status
-          role="status"
-          aria-live="polite"
-        ></p>
-      </form>
+          <div class="mt-6">
+            <label
+              class="block text-sm tracking-[0.12em] uppercase text-ink-faint"
+              for="gb-message"
+              {...t(guestbook.messageLabel)}
+            >
+              {guestbook.messageLabel.da}
+            </label>
+            <textarea
+              id="gb-message"
+              name="message"
+              required
+              rows="5"
+              maxlength={guestbook.maxMessageLength}
+              class="mt-2 w-full resize-y rounded-lg border border-sand-deep bg-surface px-4 py-3 text-ink outline-none focus:border-accent"
+            ></textarea>
+            <p
+              class="mt-1.5 hidden text-sm text-red-700"
+              data-error-for="message"
+            ></p>
+          </div>
 
-      <div class="reveal">
-        <ul class="space-y-5" data-guestbook-list>
-          <li
-            class="text-ink-faint"
-            data-guestbook-placeholder
-            {...t(guestbook.loadingState)}
+          {/* Honeypot: skjult for mennesker, udfyldes typisk af bots. */}
+          <div class="absolute left-[-9999px]" aria-hidden="true">
+            <label for="gb-website">Efterlad dette felt tomt</label>
+            <input
+              id="gb-website"
+              name="website"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary mt-7 w-full sm:w-auto"
+            {...t(guestbook.submitLabel)}
           >
-            {guestbook.loadingState.da}
-          </li>
-        </ul>
+            {guestbook.submitLabel.da}
+          </button>
+
+          <p
+            class="mt-4 hidden text-sm"
+            data-form-status
+            role="status"
+            aria-live="polite"
+          ></p>
+        </form>
+
+        <div class="reveal">
+          <ul class="space-y-5" data-guestbook-list>
+            <li
+              class="text-ink-faint"
+              data-guestbook-placeholder
+              {...t(guestbook.loadingState)}
+            >
+              {guestbook.loadingState.da}
+            </li>
+          </ul>
+        </div>
       </div>
+    </div>
+  </div>
+
+  {/*
+    Billedet fylder venstre halvdel helt ud til kanten. Indeni er det sticky,
+    så det bliver stående, når listen med hilsner bliver lang.
+    På mobil står det nederst.
+  */}
+  <div class="mt-12 md:absolute md:inset-y-0 md:left-0 md:mt-0 md:w-1/2">
+    <div class="md:sticky md:top-0 md:h-svh md:max-h-full">
+      <Image
+        src={signatureImage}
+        {...tAttr('alt', guestbook.photoAlt)}
+        alt={guestbook.photoAlt.da}
+        widths={[640, 1080, 1600, 2400]}
+        quality={90}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        class="aspect-[4/5] w-full object-cover grayscale md:aspect-auto md:h-full"
+      />
     </div>
   </div>
 </section>
